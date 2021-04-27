@@ -16,8 +16,10 @@ authe = firebase.auth()
 database = firebase.database()
 
 def index(request):
+    #ejemplo de como consultar un dato en firebase:
     name_Emp = database.child('Empresa').child('1').child('nombre_Emp').get().val()
 
+    #ejemplo enviar dato de firebase a una vista .html
     return render(request, 'index.html', {
         "name_Emp": name_Emp
     })
