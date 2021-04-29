@@ -1,11 +1,40 @@
 # Auto Interview Analyzer
+
 Consiste en una herramienta de software que permite realizar filtros a los candidatos que desean postularse para aplicar a alguna vacante de alguna empresa, permitiendo que la plataforma realice preguntas preliminares para descargar posibles candidatos que no cumplen con conocimientos minimos o no muestran cierto grado de confianza.
 
-## Comenzando
+# Comenzando
+
 Para este proyecto se necesito instalar complementos o plugins para pyton
 
-### Plugins necesarios
-_Django_ 
+## Plugins necesarios
+
+_Django_
+
 ```
 python install -m Django
+```
+
+En caso de error se puede intentar con este otro comando
+```
+pip3 install Django
+```
+#
+
+_Pyrebase_
+
+```
+python install -m pyrebase
+```
+
+En caso de error se puede intentar con este otro comando
+
+```
+pip3 install pyrebase4
+```
+#
+
+_Bootstrap 4_
+
+```
+pip install django-bootstrap4
 ```
