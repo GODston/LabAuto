@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Simulador de Entrevistas v0.1</title>
+        {% load bootstrap4 %} {# Cargamos la librería #}
+        {% bootstrap_css %} {# CSS Bootstrap #}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/login-custom.css' %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" href="favicon.ico">
+    </head>
+    <body>
+        {% include "Components/navbar.html" %}
+
+        <div class="container-fluid">
+            <br/>
+            <div class="row">
+                <div class="col-md-7">
+                    <img src="{% static 'img/19197091.jpg'%}" 
+                    class="img-fluid" alt=""/>
+                </div> 
+                <div class="col-md-1"></div>
+                <div class="col-md-3">
+                    <br/><br/><br/>
+                    <div class="row">
+                        <p class="col-sm-1"></p>
+                        <h1 class="font-weight-bold text-center" style="font-size: 52px;">Auto Interview Analyzer</h1>
+                    </div>
+                    <br/><br/><br/>
+                    <div class="row">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                    </div>
+                </div>  
+
+                
+            </div>         
+        </div>
+
+        {% include "Components/bottom.html" %}
+
+        {% bootstrap_javascript jquery='full' %}
+    </body>
+</html>
