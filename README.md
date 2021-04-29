@@ -4,7 +4,7 @@ Consiste en una herramienta de software que permite realizar filtros a los candi
 
 # Comenzando
 
-Para este proyecto se necesito instalar complementos o plugins para pyton
+Para este proyecto se necesito instalar complementos o plugins para python
 
 ## Plugins necesarios
 
