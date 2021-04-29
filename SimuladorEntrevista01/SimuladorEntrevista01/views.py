@@ -83,3 +83,8 @@ def candidates(request):
         "empresa": True,
         "listPersons": listPersons
     })
+
+def settings(request):
+    return render(request, 'Components/Brand/settings.html', {
+        "empresa": True
+    })
