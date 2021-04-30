@@ -38,3 +38,10 @@ _Bootstrap 4_
 ```
 pip install django-bootstrap4
 ```
+## Ejecutar la aplicacion
+Para ejecutar la aplicacion basta correr el siguiente comando:
+
+```
+python manage.py runserver
+```
+
