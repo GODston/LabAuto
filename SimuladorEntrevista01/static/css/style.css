@@ -1,0 +1,12 @@
+.scrollable {
+    height: 70%;
+    overflow-y: scroll;
+}
+
+.btn .btn-success {
+    border-radius: 50px;
+}
+
+.container {
+    overflow:auto;
+}

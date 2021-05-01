@@ -6,31 +6,45 @@
         <title>Simulador de Entrevistas v0.1</title>
         {% load bootstrap4 %} {# Cargamos la librería #}
         {% bootstrap_css %} {# CSS Bootstrap #}
+        <link rel="stylesheet" href="{% static 'css/style.css'%}">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" href="favicon.ico">
     </head>
     <body>
+
         {% include "Components/navbar.html" %}
 
         <div class="container-fluid">
             <br/>
             <div class="row">
-                <div class="col-md-2"></div>
+                <div class="col-md-1"></div>
                 <div class="card col-md-3">
-                    <div class="card-body">   
+                    <div class="card-body">
                         <div class="row">
                             <p class="col-sm-1"></p>
-                            <h1 class="card-title text-primary font-weight-bold">Bienvenido candidato</h1>
+                            <h1 class="card-title text-primary font-weight-bold">Iniciar sesion</h1>
+                        </div>
+                        
+
+                        <div class="row">
+                            <p class="col-sm-1"></p>
+                            <p class="col-sm-5">No tienes usuario?</p>
+                            <a href="/register" class="col-sm-5 text-primary">Crear una cuenta</a>
                         </div>
 
                         <form>
                             <div class="form-group row">
-                                <p class="col-sm-1"></p>
-                                <label for="txtCode" class="col-sm-10">Ingrese su codigo: </label>
+                                <label for="txtEmail" class="col-sm-1"></label>
+                                <input type="email" class="form-control col-sm-10" id="txtEmail" name="txtEmail" placeholder="Usuario o correo electrónico">
                             </div>
                             <div class="form-group row">
-                                <p class="col-sm-1"></p>
-                                <input type="text" class="form-control col-sm-10" id="txtCode" name="txtCode" placeholder="Ejemplo: RH-000000">
+                                <label for="txtPassword" class="col-sm-1"></label>
+                                <input type="password" class="form-control col-sm-10" id="txtPassword" name="txtPassword" placeholder="Contraseña">
+                            </div>
+                            <div class="form-check form-group row">
+                                <label for="" class="col-sm-1"></label>
+                                <input type="checkbox" class="form-check-input" id="chkSesion">
+                                <label class="form-check-label" for="chkSesion">Mantenerme conectado</label>
                             </div>
                             <br/>
                             <div class="row">
@@ -41,8 +55,8 @@
                     </div>
                 </div>  
 
-                <div class="col-md-5">
-                    <img src="{% static 'img/candidato_1.jpg'%}" 
+                <div class="col-md-7">
+                    <img src="{% static 'img/4565.jpg'%}" 
                     class="img-fluid" alt=""/>
                 </div> 
             </div>         
