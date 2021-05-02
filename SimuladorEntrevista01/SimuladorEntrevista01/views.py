@@ -65,7 +65,7 @@ def interviews(request):
 def interview_details(request, id):
     return render(request, 'Brand/interview_details.html', {
         "empresa": True,
-        "entrevista": listaEntrevistas.objects.get(id=id)
+        "entrevista": listaEntrevistas[id-1]
     })
 
 def candidates(request):
