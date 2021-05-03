@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Entrevista
+from .models import Pregunta
 from .models import Persona
 import pyrebase
 
@@ -40,6 +41,24 @@ listaEntrevistas = [
     Entrevista('10', 'Entrevista Scrum Master', '2020-04-29', '2021-03-23', 30)
 ]
 
+listaPreguntas = [
+    Pregunta('1', 'Que te gusta hacer?'),
+    Pregunta('2', 'Cuales son tus aspiraciones?'),
+    Pregunta('3', 'Como comenzaste en la carrera?'),
+    Pregunta('4', 'Cual es tu motivacion?'),
+    Pregunta('5', 'Que es lo que buscas en un ambiente de trabajo?'),
+    Pregunta('6', 'Que te gusta hacer?'),
+    Pregunta('7', 'Cuales son tus aspiraciones?'),
+    Pregunta('8', 'Como comenzaste en la carrera?'),
+    Pregunta('9', 'Cual es tu motivacion?'),
+    Pregunta('10', 'Que es lo que buscas en un ambiente de trabajo?'),
+    Pregunta('11', 'Que te gusta hacer?'),
+    Pregunta('12', 'Cuales son tus aspiraciones?'),
+    Pregunta('13', 'Como comenzaste en la carrera?'),
+    Pregunta('14', 'Cual es tu motivacion?'),
+    Pregunta('15', 'Que es lo que buscas en un ambiente de trabajo?')
+]
+
 def index(request):
     name_Emp = database.child('Empresa').child('1').child('nombre_Emp').get().val()
 
@@ -65,13 +84,20 @@ def interviews(request):
 def interview_details(request, id):
     return render(request, 'Brand/interview_details.html', {
         "empresa": True,
-        "entrevista": listaEntrevistas[id-1]
+        "entrevista": listaEntrevistas[id-1],
+        "listaPreguntas": listaPreguntas
     })
 
 def candidates(request):
     return render(request, 'Brand/candidates.html', {
         "empresa": True,
         "listaPersonas": listaPersonas
+    })
+
+def candidate_details(request, id):
+    return render(request, 'Brand/candidate_details.html', {
+        "empresa": True,
+        "candidato": listaPersonas[id-1]
     })
 
 def settings(request):

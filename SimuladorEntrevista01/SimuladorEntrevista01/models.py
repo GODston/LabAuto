@@ -18,6 +18,15 @@ class Persona(models.Model):
     telefono = models.CharField(max_length=14)
     celular = models.CharField(max_length=14)
 
+    def __init__(self, id, nombre, puesto, edad, fechaRegistro, fechaEntrevista):
+        self.id=id
+        self.nombre=nombre
+        self.puesto=puesto
+        self.edad=edad
+        self.fechaRegistro=fechaRegistro
+        self.fechaEntrevista=fechaEntrevista
+        
+
 # Tabla de empresas
 class Empresa(models.Model):
     ESTATUS_OPCIONES = (
@@ -70,6 +79,13 @@ class Entrevista(models.Model):
         verbose_name="Relacion de la entrevista con la vacante"
     )
 
+    def __init__(self, id, alias, fechaCreacion, fechaActualizacion, preguntas):
+        self.id=id
+        self.alias=alias
+        self.fechaCreacion=fechaCreacion
+        self.fechaActualizacion=fechaActualizacion
+        self.preguntas=preguntas
+
 # Tabla de preguntas, relacionadas con la entrevista
 class Pregunta(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -81,6 +97,10 @@ class Pregunta(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Relacion de la pregunta con la entrevista"
     )
+
+    def __init__(self, id, pregunta):
+        self.id=id
+        self.pregunta=pregunta
 
 # Tabla donde se almacena el candidato
 class Candidato(models.Model):

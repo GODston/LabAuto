@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 <!--Se configura el titulo-->
 {% block title %} Ingreso Candidato {% endblock %}
 
@@ -35,7 +37,7 @@
             </div>  
 
             <div class="col-md-5">
-                <img src="./static/img/candidato_ingreso.jpg" 
+                <img src="{% static 'img/candidato_ingreso.jpg' %}" 
                 class="img-fluid" alt="img-ingreso"/>
             </div> 
         </div>         

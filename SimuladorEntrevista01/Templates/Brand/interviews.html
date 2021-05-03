@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %} Entrevistas {% endblock %}
 
 {% block content %} 
@@ -39,7 +41,7 @@
                     </thead>
                     <tbody>
                         {% for entrevista in listaEntrevistas %}
-                            <tr scope="row">
+                            <tr id="{{entrevista.id}}" scope="row" class="tr-entrevista">
                                 <td>{{entrevista.id}}</td>
                                 <td>{{entrevista.alias}}</td>
                                 <td>{{entrevista.preguntas}}</td>
