@@ -1,23 +1,16 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Simulador de Entrevistas v0.1</title>
-        {% load bootstrap4 %} {# Cargamos la librería #}
-        {% bootstrap_css %} {# CSS Bootstrap #}
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" href="favicon.ico">
-    </head>
-    <body>
-        {% include "Components/navbar.html" %}
+{% extends "base.html" %}
 
+{% load static %}
+
+{% block title %} Sobre AIA {% endblock %}
+
+{% block content %}
         <div class="container-fluid">
             <br/>
             <div class="row">
                 <div class="col-md-7">
-                    <img src="{% static 'img/19197091.jpg'%}" 
-                    class="img-fluid" alt=""/>
+                    <img src="{% static 'img/about.jpg' %}" 
+                    class="img-fluid" alt="img-about"/>
                 </div> 
                 <div class="col-md-1"></div>
                 <div class="col-md-3">
@@ -38,9 +31,4 @@
                 
             </div>         
         </div>
-
-        {% include "Components/bottom.html" %}
-
-        {% bootstrap_javascript jquery='full' %}
-    </body>
-</html>
+{% endblock %}
