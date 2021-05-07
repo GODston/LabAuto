@@ -106,3 +106,14 @@ def settings(request):
     return render(request, 'Brand/settings.html', {
         "empresa": True
     })
+
+def act_login(request):
+    usr = request.POST.get("txtEmail")
+    pss = request.POST.get("txtPassword")
+    dbEmp = database.child('Empresa').get()
+    for emp in dbEmp.each():
+        if usr == emp.child("nombre_Emp").get().val() or usr == emp.child("correo").get().value():
+            if pss == emp.child("contrasena").get().val():
+                
+    
+        

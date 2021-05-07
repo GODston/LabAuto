@@ -23,7 +23,8 @@
                         <a href="/register" class="col-sm-5 text-primary">Crear una cuenta</a>
                     </div>
 
-                    <form>
+                    <form action="/act_login/" method="POST">
+                        {% csrf_token %}
                         <div class="form-group row">
                             <label for="txtEmail" class="col-sm-1"></label>
                             <input type="email" class="form-control col-sm-10" id="txtEmail" name="txtEmail" placeholder="Usuario o correo electrónico">

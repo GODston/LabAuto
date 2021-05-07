@@ -11,4 +11,5 @@ urlpatterns = [
     path('candidates', views.candidates),
     path('candidates/<int:id>/', views.candidate_details),
     path('settings', views.settings)
+    path('act_login/' views.act_login)
 ]
