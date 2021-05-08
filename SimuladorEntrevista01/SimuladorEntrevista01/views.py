@@ -60,13 +60,7 @@ listaPreguntas = [
 ]
 
 def index(request):
-    #ejemplo de como consultar un dato en firebase:
-    name_Emp = database.child('Empresa').child('1').child('nombre_Emp').get().val()
-
-    #ejemplo enviar dato de firebase a una vista .html
-    return render(request, 'index.html', {
-        "name_Emp": name_Emp
-    })
+    return render(request, 'index.html')
 
 def login(request):
     return render(request, 'login.html')
@@ -108,12 +102,92 @@ def settings(request):
     })
 
 def act_login(request):
+    status_login = ""
+    cont = 1
+
     usr = request.POST.get("txtEmail")
     pss = request.POST.get("txtPassword")
-    dbEmp = database.child('Empresa').get()
-    for emp in dbEmp.each():
-        if usr == emp.child("nombre_Emp").get().val() or usr == emp.child("correo").get().value():
-            if pss == emp.child("contrasena").get().val():
-                
+    status_login = "Inicio de Sesion incorrecto"
+    dbemp = database.child("Empresa").get()
+    for emp in dbemp.each():
+        if emp.key() >= 1:
+            if usr == database.child("Empresa").child(emp.key()).child("correo").get().val():
+                if pss == database.child("Empresa").child(emp.key()).child("contrasena").get().val() and database.child("Empresa").child(emp.key()).child("estatus").get().val() == "1":
+                    #código de inicio de sesion-->
+                    status_login = "Inicio de Sesion Correcto!"
+                    return render(request, 'login.html', {
+                        "status_login": status_login
+                    })
+    #código de error de inicio de sesion -->
+    return render(request, 'login.html', {
+        "status_login": status_login
+    })
+
+def act_register(request):
+    #Carga de datos
+    status_register = "Error en registro"
+    name = request.POST.get("txtNameEmp")
+    usr = request.POST.get("txtEmail")
+    pss = request.POST.get("txtPassword")
+    pssConf = request.POST.get("txtCPassword")
+    dbemp = database.child("Empresa").get()
+    """
+    #Validar campos
+    if len(pss) < 1 or len(name) < 1 or len(usr) < 1:
+        status_register = "Favor de llenar todos los campos correctamente."
+        return render(request, 'register.html', {
+            "status_register": status_register
+        })
+    if len(pss) < 5:
+        status_register = "La contraseña debe contener al menos 5 caracteres."
+        return render(request, 'register.html', {
+            "status_register": status_register
+        })
+    if pss != pssConf:
+        status_register = "Ambas contraseñas deben coincidir."
+        return render(request, 'register.html', {
+            "status_register": status_register
+        })
+
+    #Validar que no esta el correo registrado aun
     
-        
+    for emp in dbemp.each():
+        if emp.key() >= 1:
+            if database.child("Empresa").child(emp.key()).child("correo").get().val() == usr:
+                status_register = "Ya esta registrado ese correo, intente con otro."
+                return render(request, 'register.html', {
+                    "status_register": status_register
+                })
+    """
+    #Agregar los datos
+    cont = 1
+    for emp in dbemp.each():
+        if emp.key() >= 1:
+            if database.child("Empresa").child(emp.key()).child("id_Emp").get().val() != str(cont):
+                #Se incertan datos en id = str(cont)
+                """
+                database.child("Empresa").child(str(cont)).child("id_Emp").set(str(cont))
+                database.child("Empresa").child(str(cont)).child("estatus").set("1")
+                database.child("Empresa").child(str(cont)).child("nombre_Emp").set(name)
+                database.child("Empresa").child(str(cont)).child("correo").set(usr)
+                database.child("Empresa").child(str(cont)).child("contrasena").set(pss)
+                """
+                status_register = "Registro de Empresa exitosa en id = " + str(cont)
+                return render(request, 'register.html', {
+                    "status_register": status_register
+                })
+            else:
+                cont = cont + 1
+    #Se incertan datos en id = str(cont)
+    """
+    database.child("Empresa").child(str(cont)).child("id_Emp").set(str(cont))
+    database.child("Empresa").child(str(cont)).child("estatus").set("1")
+    database.child("Empresa").child(str(cont)).child("nombre_Emp").set(name)
+    database.child("Empresa").child(str(cont)).child("correo").set(usr)
+    database.child("Empresa").child(str(cont)).child("contrasena").set(pss)
+    """
+    status_register = "Registro de Empresa exitosa en id = " + str(cont)
+    #Error
+    return render(request, 'register.html', {
+        "status_register": status_register
+    })

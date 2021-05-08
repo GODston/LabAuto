@@ -10,6 +10,7 @@ urlpatterns = [
     path('interviews/<int:id>/', views.interview_details),
     path('candidates', views.candidates),
     path('candidates/<int:id>/', views.candidate_details),
-    path('settings', views.settings)
-    path('act_login/' views.act_login)
+    path('settings', views.settings),
+    path('act_login', views.act_login),
+    path('act_register', views.act_register)
 ]

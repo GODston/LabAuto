@@ -23,7 +23,7 @@
                         <a href="/register" class="col-sm-5 text-primary">Crear una cuenta</a>
                     </div>
 
-                    <form action="/act_login/" method="POST">
+                    <form action="/act_login" method="POST">
                         {% csrf_token %}
                         <div class="form-group row">
                             <label for="txtEmail" class="col-sm-1"></label>
@@ -44,6 +44,7 @@
                             <button type="submit" class="btn btn-primary col-sm-10">Entrar</button>
                         </div>
                     </form>
+                    <h4>{{status_login}}</h4>
                 </div>
             </div>  
 
