@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap4',
-    'SimuladorEntrevista01',
+    'appPersona',
+    'appEmpresa',
+    'appCandidato',
+    'appEntrevista',
 ]
 
 MIDDLEWARE = [

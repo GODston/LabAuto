@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from .models import Entrevista
-from .models import Pregunta
-from .models import Persona
+from appEntrevista.models import Entrevista
+from appEntrevista.models import Pregunta
+from appPersona.models import Persona
 import pyrebase
 
 config = {
