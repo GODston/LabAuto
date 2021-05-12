@@ -1,5 +1,5 @@
 # Byte-compiled / optimized / DLL files
-*/__pycache__/
+*/__pycache__/*
 SimuladorEntrevista01/__pycache/
 *.py[cod]
 *$py.class
@@ -131,3 +131,5 @@ dmypy.json
 
 # Temps IntelliJ Idea
 .idea/
+SimuladorEntrevista01/SimuladorEntrevista01/__pycache__/*
+./__pycache__
