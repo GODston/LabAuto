@@ -133,3 +133,6 @@ dmypy.json
 .idea/
 SimuladorEntrevista01/SimuladorEntrevista01/__pycache__/*
 ./__pycache__
+SimuladorEntrevista01/SimuladorEntrevista01/__pycache__/settings.cpython-39.pyc
+SimuladorEntrevista01/SimuladorEntrevista01/__pycache__/urls.cpython-39.pyc
+SimuladorEntrevista01/SimuladorEntrevista01/__pycache__/views.cpython-39.pyc
