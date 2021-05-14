@@ -1,6 +1,6 @@
 from django.db import models
-from appEmpresa.models import Vacante
-from appCandidato.models import Candidato
+from apps.empresa.models import Vacante
+from apps.candidato.models import Candidato
 
 # Tabla de entrevista relacionada con la empresa
 class Entrevista(models.Model):

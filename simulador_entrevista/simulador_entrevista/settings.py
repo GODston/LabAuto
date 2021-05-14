@@ -35,10 +35,10 @@ STATICFILES_DIRS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'appPersona.apps.ApppersonaConfig',
-    'appEmpresa.apps.AppempresaConfig',
-    'appCandidato.apps.AppcandidatoConfig',
-    'appEntrevista.apps.AppentrevistaConfig',
+    'apps.persona.apps.PersonaConfig',
+    'apps.empresa.apps.EmpresaConfig',
+    'apps.candidato.apps.CandidatoConfig',
+    'apps.entrevista.apps.EntrevistaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'SimuladorEntrevista01.urls'
+ROOT_URLCONF = 'simulador_entrevista.urls'
 
 TEMPLATES = [
     {
@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'SimuladorEntrevista01.wsgi.application'
+WSGI_APPLICATION = 'simulador_entrevista.wsgi.application'
 
 
 # Database

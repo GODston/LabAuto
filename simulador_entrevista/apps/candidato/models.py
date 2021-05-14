@@ -1,6 +1,6 @@
 from django.db import models
-from appPersona.models import Persona
-from appEmpresa.models import Vacante
+from apps.persona.models import Persona
+from apps.empresa.models import Vacante
 
 class Candidato(models.Model):
     CANDIDATO_ESTATUS = (

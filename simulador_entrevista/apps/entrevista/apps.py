@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AppentrevistaConfig(AppConfig):
+class EntrevistaConfig(AppConfig):
+    name = 'apps.entrevista'
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'appEntrevista'

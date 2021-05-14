@@ -1,5 +1,5 @@
 from django.db import models
-from appPersona.models import Persona
+from apps.persona.models import Persona
 
 # Create your models here.
 class Empresa(models.Model):

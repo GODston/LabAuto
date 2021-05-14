@@ -3,7 +3,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.http import HttpResponse
 from datetime import date
-from appPersona.models import Persona
+from apps.persona.models import Persona
 
 # Create your views here.
 def registro_empresa(request):

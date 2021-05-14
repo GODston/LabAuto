@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 
 
-class AppcandidatoConfig(AppConfig):
+class CandidatoConfig(AppConfig):
+    name = 'apps.candidato'
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'appCandidato'
+    
