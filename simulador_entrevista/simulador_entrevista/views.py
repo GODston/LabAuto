@@ -2,6 +2,7 @@ from django.shortcuts import render
 from appEntrevista.models import Entrevista
 from appEntrevista.models import Pregunta
 from appPersona.models import Persona
+from django.contrib.auth.forms import UserCreationForm
 import pyrebase
 
 config = {
@@ -70,9 +71,6 @@ def index(request):
 
 def login(request):
     return render(request, 'login.html')
-
-def register(request):
-    return render(request, 'register.html')
 
 def about(request):
     return render(request, 'about.html')

@@ -35,17 +35,17 @@ STATICFILES_DIRS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'appPersona.apps.ApppersonaConfig',
+    'appEmpresa.apps.AppempresaConfig',
+    'appCandidato.apps.AppcandidatoConfig',
+    'appEntrevista.apps.AppentrevistaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap4',
-    'appPersona',
-    'appEmpresa',
-    'appCandidato',
-    'appEntrevista',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [
