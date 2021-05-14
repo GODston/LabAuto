@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from Entrevista.models import Entrevista
-from Entrevista.models import Pregunta
-from Persona.models import Persona
+from apps.entrevista.models import Entrevista
+from apps.entrevista.models import Pregunta
+from apps.persona.models import Persona
 from django.contrib.auth.forms import UserCreationForm
 import pyrebase
 
