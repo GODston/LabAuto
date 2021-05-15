@@ -142,3 +142,4 @@ vscode/
 SimuladorEntrevista01/SimuladorEntrevista01/__pycache__/*
 ./__pycache__
 
+.vscode/settings.json
