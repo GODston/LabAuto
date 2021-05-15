@@ -136,6 +136,9 @@ dmypy.json
 # Temps IntelliJ Idea
 .idea/
 .vscode/
+.vscode/*
+vscode/
+/vscode
 SimuladorEntrevista01/SimuladorEntrevista01/__pycache__/*
 ./__pycache__
 
