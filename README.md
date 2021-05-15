@@ -45,3 +45,18 @@ Para ejecutar la aplicacion basta correr el siguiente comando:
 python manage.py runserver
 ```
 
+## Crear modelos de bases de datos
+
+Para crear los modelos de cada una de las apps en la base de datos, es necesario ejecutar los siguientes comandos:
+
+### Para crear las migraciones de dichos modelos:
+
+```
+python manage.py makemigrations
+```
+
+### Para establecer los modelos como tablas en la base de datos
+
+```
+python manage.py migrate
+```
