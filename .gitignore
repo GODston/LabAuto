@@ -1,7 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__
 */__pycache__/*
-\__pycache
 /__pycache__
 __pycache__/
 SimuladorEntrevista01/__pycache/
@@ -136,10 +135,3 @@ dmypy.json
 # Temps IntelliJ Idea
 .idea/
 .vscode/
-.vscode/*
-vscode/
-/vscode
-SimuladorEntrevista01/SimuladorEntrevista01/__pycache__/*
-./__pycache__
-
-.vscode/settings.json
