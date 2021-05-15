@@ -14,13 +14,9 @@ class Entrevista(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Relacion de la entrevista con la vacante"
     )
-
-    def __init__(self, id, alias, fechaCreacion, fechaActualizacion, preguntas):
-        self.id=id
-        self.alias=alias
-        self.fechaCreacion=fechaCreacion
-        self.fechaActualizacion=fechaActualizacion
-        self.preguntas=preguntas
+    
+    def __str__(self):
+        return self.alias
 
 # Tabla de preguntas, relacionadas con la entrevista
 class Pregunta(models.Model):
@@ -34,9 +30,8 @@ class Pregunta(models.Model):
         verbose_name="Relacion de la pregunta con la entrevista"
     )
 
-    def __init__(self, id, pregunta):
-        self.id=id
-        self.pregunta=pregunta
+    def __str__(self):
+        return self.pregunta
 
 # Tabla para relacionar la entrevista con el candidato
 class ContestaEntrevista(models.Model):
@@ -44,14 +39,17 @@ class ContestaEntrevista(models.Model):
     puntuacion = models.IntegerField()
     entrevista = models.ForeignKey(
         Entrevista, 
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         verbose_name="Relacion de respuestas con la entrevista"
     )
     candidato = models.ForeignKey(
         Candidato, 
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         verbose_name="Relacion de respuestas con candidato"
     )
+
+    def __str__(self):
+        return self.puntuacion
 
 # Tabla en donde se guardan las respuestas
 class Respuesta(models.Model):
@@ -59,9 +57,12 @@ class Respuesta(models.Model):
     respuesta = models.TextField()
     contesta_entrevista = models.ForeignKey(
         ContestaEntrevista, 
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         verbose_name="Relacion con contestacion entrevistado"
     )
+
+    def __str__(self):
+        return self.respuesta
 
 # Tabla en donde se guardan las grabaciones
 class Grabacion(models.Model):
@@ -72,3 +73,6 @@ class Grabacion(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Relacion con la respuesta del candidato"
     )
+
+    def __str__(self):
+        return self.archivo

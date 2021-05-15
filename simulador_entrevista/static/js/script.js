@@ -2,7 +2,7 @@
 document.querySelectorAll('.tr-entrevista').forEach(entrevista => {
     var entrevista_id = entrevista.getAttribute("id")
     entrevista.addEventListener('click', event => {
-        window.location.href = '/interviews/' + entrevista_id;
+        window.location.href = '/entrevistas/' + entrevista_id;
     })
 })
 
@@ -10,7 +10,7 @@ document.querySelectorAll('.tr-entrevista').forEach(entrevista => {
 document.querySelectorAll('.tr-candidatos').forEach(candidato => {
     var candidato_id = candidato.getAttribute("id")
     candidato.addEventListener('click', event => {
-        window.location.href = '/candidates/' + candidato_id;
+        window.location.href = '/candidatos/' + candidato_id;
     })
 })
 

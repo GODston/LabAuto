@@ -15,14 +15,8 @@
                     <h1 class="card-title text-primary font-weight-bold text-center">Crea tu cuenta</h1>
                     <hr>
                     <br/>
-
-                    <form action="" method="post">
+                    <form action="/empresas/" method="POST">
                         {% csrf_token %}
-                        {{ form }}
-                        <a href="{% url 'login' %}">Volver a Iniciar Sesion</a>
-                        <button type="submit" class="btn btn-primary col-sm-10">Unirse</button>    
-                    </form>
-                    <!--<form action="/empresas/" method="POST">
                         <div class="form-group row">
                             <p class="col-sm-1"></p>
                             <label for="txtNames" class="col-sm-4">Nombre(s): </label>
@@ -69,7 +63,7 @@
                             <label for="" class="col-sm-1"></label>
                             <button type="submit" class="btn btn-primary col-sm-10">Unirse</button>
                         </div>
-                    </form>-->
+                    </form>
                 </div>
             </div>
             <div class="col-md-6">

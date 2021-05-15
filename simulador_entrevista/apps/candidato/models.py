@@ -20,6 +20,11 @@ class Candidato(models.Model):
     )
     vacante = models.ForeignKey(
         Vacante, 
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         verbose_name="Relacion de candidato con la vacante"
     )
+    fechaRegistro = models.DateTimeField()
+    fechaEntrevista = models.DateTimeField()
+
+    def __str__(self):
+        return self.codigo

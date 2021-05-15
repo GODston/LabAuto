@@ -9,7 +9,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.candidato.urls')),
     path('empresas/', include('apps.empresa.urls')),
-    path('nosotros/', about, name="nosotros"),
+    path('candidatos/', include('apps.candidato.urls')),
+    path('entrevistas/', include('apps.entrevista.urls')),
+    path('nosotros', about, name="nosotros"),
 ]
 
 if settings.DEBUG:

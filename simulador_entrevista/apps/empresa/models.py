@@ -19,6 +19,9 @@ class Empresa(models.Model):
         verbose_name="Persona relacionada con la empresa"
     )
 
+    def __str__(self):
+        return self.nombre
+
 # Tabla de vacantes
 class Vacante(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -28,6 +31,9 @@ class Vacante(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Relacion de la vacante con la empresa"
     )
+
+    def __str__(self):
+        return self.nombre
 
 # Tabla de criterio
 class Criterio(models.Model):
@@ -39,3 +45,6 @@ class Criterio(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Relacion de los criterios con la vacante"
     )
+
+    def __str__(self):
+        return self.criterio
