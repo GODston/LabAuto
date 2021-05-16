@@ -39,7 +39,7 @@ class Vacante(models.Model):
 class Criterio(models.Model):
     id = models.BigAutoField(primary_key=True)
     criterio = models.CharField(max_length=255)
-    puntuacion = models.IntegerField()
+    puntuacion = models.IntegerField(default=0)
     vacante = models.ForeignKey(
         Vacante, 
         on_delete=models.CASCADE,

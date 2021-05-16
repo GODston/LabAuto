@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %} Candidatos {% endblock %}
+
+{% block content %} 
+
+<style>
+    .scrollable {
+        height: 100%;
+    }
+</style>
+
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-10 offset-md-1">
+            <h1>Entrevistas</h1>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-2 offset-md-2">
+            <a href="{% url 'agregar_entrevista' %}">
+                <button type="button" class="btn btn-success">Crear</button>
+            </a>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-12 col-md-10 offset-md-1 ">
+            {% if listaEntrevistas %}
+            <div class="scrollable">
+                <table class="table table-striped table-hover table-responsive-sm text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Reg #</th>
+                            <th scope="col">Entrevista</th>
+                            <th scope="col">Preguntas</th>
+                            <th scope="col">Fecha de creacion</th>
+                            <th scope="col">Ultima actualizacion</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entrevista in listaEntrevistas %}
+                            <tr id="{{entrevista.id}}" scope="row" class="tr-entrevista">
+                                <td>{{entrevista.id}}</td>
+                                <td>{{entrevista.alias}}</td>
+                                <td>{{entrevista.preguntas}}</td>
+                                <td>{{entrevista.fechaCreacion}}</td>
+                                <td>{{entrevista.fechaActualizacion}}</td>
+                                <td>
+                                    <a href="{% url 'detalle_entrevista' entrevista.id %}" class="btn btn-primary">Modificar</a>
+                                    <a href="{% url 'eliminar_entrevista' entrevista.id %}"class="btn btn-danger">Eliminar</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

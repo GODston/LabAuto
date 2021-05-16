@@ -1,14 +1,15 @@
 from django.db import models
 from apps.empresa.models import Vacante
 from apps.candidato.models import Candidato
+import datetime
 
 # Tabla de entrevista relacionada con la empresa
 class Entrevista(models.Model):
     id = models.BigAutoField(primary_key=True)
     alias = models.CharField(max_length=255)
-    preguntas = models.IntegerField()
-    fechaCreacion = models.DateTimeField()
-    fechaActualizacion = models.DateTimeField()
+    preguntas = models.IntegerField(default=0)
+    fechaCreacion = models.DateTimeField(default=datetime.datetime.now())
+    fechaActualizacion = models.DateTimeField(default=datetime.datetime.now())
     vacante = models.ForeignKey(
         Vacante, 
         on_delete=models.CASCADE,
@@ -22,8 +23,8 @@ class Entrevista(models.Model):
 class Pregunta(models.Model):
     id = models.BigAutoField(primary_key=True)
     pregunta = models.CharField(max_length=255)
-    fechaCreacion = models.DateTimeField()
-    fechaActualizacion = models.DateTimeField()
+    fechaCreacion = models.DateTimeField(default=datetime.datetime.now())
+    fechaActualizacion = models.DateTimeField(default=datetime.datetime.now())
     entrevista = models.ForeignKey(
         Entrevista, 
         on_delete=models.CASCADE,
@@ -36,7 +37,7 @@ class Pregunta(models.Model):
 # Tabla para relacionar la entrevista con el candidato
 class ContestaEntrevista(models.Model):
     id = models.BigAutoField(primary_key=True)
-    puntuacion = models.IntegerField()
+    puntuacion = models.IntegerField(default=0)
     entrevista = models.ForeignKey(
         Entrevista, 
         on_delete=models.PROTECT,

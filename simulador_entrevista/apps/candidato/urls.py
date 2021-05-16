@@ -8,6 +8,7 @@ urlpatterns = [
 
     ## Candidatos vistos por la empresa
     path('candidatos', CandidatoView.get, name="candidatos"),
+    path('candidatos/agregar', CandidatoView.add_candidato, name="agregar_candidato"),
     path('candidatos/<int:id>', CandidatoView.get_detail, name="detalle_candidato"),
-    path('candidatos/<id>/update/', CandidatoView.update_detail, name="actualizar_detalle_candidato")
+    path('candidatos/<id>/eliminar', CandidatoView.delete, name="eliminar_candidato"),
 ]
