@@ -84,7 +84,7 @@
                                             <td>{{pregunta.id}}</td>
                                             <td>{{pregunta.pregunta}}</td>
                                             <td>
-                                                <a href="{% url 'eliminar_pregunta' pregunta.id %}" class="btn btn-danger">Eliminar</a>
+                                                <a href="{% url 'eliminar_pregunta' entrevista.id pregunta.id %}" class="btn btn-danger">Eliminar</a>
                                             </td>
                                         </tr>
                                     </tbody>

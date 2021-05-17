@@ -2,6 +2,28 @@
 
 {% block title %} Candidatos {% endblock %}
 
+{% block js %}
+    <script>
+        function eliminarCandidato(id) {
+            Swal.fire({
+                "title": "¿Estás seguro?",
+                "text": "Esta acción no se puede deshacer",
+                "icon": "question",
+                "showCancelButton": true,
+                "cancelButtonText": "No, cancelar",
+                "confirmButtonText": "Si, eliminar",
+                "reverseButtons": true,
+                "confirmButtonColor": "#dc3545"
+            })
+            .then(function(result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/candidatos/" + id + "/eliminar"
+                }
+            })
+        }
+    </script>
+{% endblock %}
+
 {% block content %} 
 
 <style>
@@ -44,7 +66,7 @@
                     </thead>
                     <tbody>
                         {% for candidato in listaCandidatos %}
-                            <tr id="{{candidato.id}}" class="tr-candidatos" scope="row">
+                            <tr scope="row">
                                 <td>{{candidato.id}}</td>
                                 <td>{{candidato.persona.nombre}} {{candidato.persona.ap_paterno}}</td>
                                 <td>{{candidato.vacante.nombre}}</td>
@@ -53,7 +75,7 @@
                                 <td>{{candidato.fechaEntrevista}}</td>
                                 <td>
                                     <a href="{% url 'detalle_candidato' candidato.id %}" class="btn btn-primary">Modificar</a>
-                                    <a href="{% url 'eliminar_candidato' candidato.id %}"class="btn btn-danger">Eliminar</a>
+                                    <a href="#" onclick="eliminarCandidato({{ candidato.id }})" class="btn btn-danger">Eliminar</a>
                                 </td>
                             </tr>
                         {% endfor %}

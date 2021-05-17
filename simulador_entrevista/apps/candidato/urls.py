@@ -10,5 +10,5 @@ urlpatterns = [
     path('candidatos', CandidatoView.get, name="candidatos"),
     path('candidatos/agregar', CandidatoView.add_candidato, name="agregar_candidato"),
     path('candidatos/<int:id>', CandidatoView.get_detail, name="detalle_candidato"),
-    path('candidatos/<id>/eliminar', CandidatoView.delete, name="eliminar_candidato"),
+    path('candidatos/<int:id>/eliminar', CandidatoView.delete, name="eliminar_candidato"),
 ]

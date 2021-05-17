@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
+from django.contrib import messages
 from datetime import datetime
 from .models import Candidato
 from .forms import CandidatoForm, AgregarCandidatoForm
@@ -34,7 +35,7 @@ class CandidatoView(View):
             'formPersona': PersonaForm(),
             'formCandidato': AgregarCandidatoForm()
         }   
-        ## Metodo post    
+        ## Metodo post
         if request.method == 'POST':
             formularioCandidato = AgregarCandidatoForm(data=request.POST)
             formularioPersona = PersonaForm(data=request.POST)
@@ -42,18 +43,17 @@ class CandidatoView(View):
             ## Se guarda la persona
             if formularioPersona.is_valid():
                 formularioPersona.save()
-                data["mensajePersona"] = "Datos guardados correctamente"
+                messages.success(request, "Se han agregado los datos de la persona correctamente")
             else: 
-                data["form"] = formularioPersona
+                data["formPersona"] = formularioPersona
 
             ## Se guarda el candidato
             if formularioCandidato.is_valid():
-                candidato = Candidato(request.POST)
-                candidato.codigo = "RH-" + datetime.now()
                 formularioCandidato.save()
+                messages.success(request, "Se ha agregado correctamente")
                 return redirect(to="candidatos")
-            else: 
-                data["form"] = formularioCandidato
+
+            data["formCandidato"] = formularioCandidato
 
         return render(request, 'candidatos/agregar.html', data)
 
@@ -75,14 +75,15 @@ class CandidatoView(View):
 
             if formPersona.is_valid():
                 formPersona.save()
-                data["mensajePersona"] = "Datos guardados correctamente"
+                messages.success(request, "Se han actualizado los datos correctamente")
+                return redirect(to="detalle_candidato", id=id)
             else:
                 data["formPersona"] = formPersona
 
             if formCandidato.is_valid():
                 formCandidato.save()
-                data["mensajeCandidato"] = "Datos guardados correctamente"
-                return redirect(to="candidatos")
+                messages.success(request, "Se han actualizado los datos correctamente")
+                return redirect(to="detalle_candidato", id=id)
             else:
                 data["formCandidato"] = formCandidato
 
@@ -92,5 +93,6 @@ class CandidatoView(View):
     def delete(request, id):
         candidato = get_object_or_404(Candidato, id=id)
         candidato.delete()
+        messages.success(request, "Se ha eliminado el registro correctamente")
         return redirect(to="candidatos")
     

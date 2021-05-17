@@ -1,6 +1,7 @@
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View
+from django.contrib import messages
 from datetime import datetime
 from .models import Entrevista, Pregunta
 from .forms import AgregarEntrevistaForm, EntrevistaForm, AgregarPreguntaForm, PreguntaForm
@@ -29,6 +30,7 @@ class EntrevistaView(View):
             ## Se guarda la entrevista
             if formEntrevista.is_valid():
                 formEntrevista.save()
+                messages.success(request, "Se ha registrado la entrevista correctamente")
                 return redirect(to="entrevistas")
             else: 
                 data["formEntrevista"] = formEntrevista
@@ -50,17 +52,22 @@ class EntrevistaView(View):
             'listaPreguntas': listaPreguntas
         }
 
-    
         if request.method == 'POST':
             ## Se actualiza entrevista
             formEntrevista = EntrevistaForm(data=request.POST, instance=entrevista)
             if formEntrevista.is_valid():
                 formEntrevista.save()
+                messages.success(request, "Se han guardado los datos correctamente")
+                return redirect(to="detalle_entrevista", id=id)
+            else:
+                data["formEntrevista"] = formEntrevista
 
             ## Se agrega pregunta
             formAgregarPregunta = AgregarPreguntaForm(data=request.POST)
             if formAgregarPregunta.is_valid():
                 formAgregarPregunta.save()
+                messages.success(request, "Se ha registrado la pregunta correctamente")
+                return redirect(to="detalle_entrevista", id=id)
             else:
                 data["formAgregarPregunta"] = formAgregarPregunta
 
@@ -70,12 +77,14 @@ class EntrevistaView(View):
     def delete_entrevista(request, id):
         entrevista = get_object_or_404(Entrevista, id=id)
         entrevista.delete()
+        messages.success(request, "Se ha eliminado la entrevista correctamente")
         return redirect(to="entrevistas")
 
 class PreguntasView:
 
-    def delete_pregunta(request, id):
-        pregunta = get_object_or_404(Pregunta, id=id)
+    def delete_pregunta(request, entrevista_id, pregunta_id):
+        pregunta = get_object_or_404(Pregunta, id=pregunta_id)
         pregunta.delete()
-        return redirect(to="entrevistas")
+        messages.success(request, "Se ha eliminado la pregunta correctamente")
+        return redirect(to="detalle_entrevista", id=entrevista_id)
                 

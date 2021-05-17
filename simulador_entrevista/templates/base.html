@@ -17,13 +17,29 @@
         {% include "Components/header.html" %}
 
         <!--Referencia al contenido de la pagina-->
-        {% block content %} {% endblock %}
+        {% block content %} 
+        {% endblock %}
 
         <!--Referencia al componente de footer-->
         {% include "Components/footer.html" %}
 
         {% bootstrap_javascript jquery='full' %}
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+        {% if messages %}
+            {% for m in messages%}
+                <script>
+                    Swal.fire({
+                        "title": "Mensaje",
+                        "text": "{{m}}",
+                        "icon": "success"
+                    })
+                </script>            
+            {% endfor %}
+        {% endif %}
+
+        {% block js %}
+        {% endblock %}
         <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
     </body>
 </html>
