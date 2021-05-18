@@ -29,18 +29,7 @@ listaPersonas = [
     Persona('7', 'Guillermo Garza', 'Analista Programador Sr.', '30', '2021-02-24', '2021-03-12'),
 ]
 
-listaEntrevistas = [
-    Entrevista('1', 'Entrevista Analista Jr.', '2020-04-29', '2021-03-23', 30),
-    Entrevista('2', 'Entrevista Analista Semi-Sr.', '2020-04-29', '2021-03-23', 30),
-    Entrevista('3', 'Entrevista Analista Sr.', '2020-04-29', '2021-03-23', 30),
-    Entrevista('4', 'Entrevista Marketing Jr.', '2020-04-29', '2021-03-23', 30),
-    Entrevista('5', 'Entrevista Marketing Sr.', '2020-04-29', '2021-03-23', 30),
-    Entrevista('6', 'Entrevista Project Manager', '2020-04-29', '2021-03-23', 30),
-    Entrevista('7', 'Entrevista Scrum Master', '2020-04-29', '2021-03-23', 30),
-    Entrevista('8', 'Entrevista Scrum Master', '2020-04-29', '2021-03-23', 30),
-    Entrevista('9', 'Entrevista Scrum Master', '2020-04-29', '2021-03-23', 30),
-    Entrevista('10', 'Entrevista Scrum Master', '2020-04-29', '2021-03-23', 30)
-]
+listaEntrevistas = []
 
 listaPreguntas = [
     Pregunta('1', 'Que te gusta hacer?'),
@@ -60,14 +49,10 @@ listaPreguntas = [
     Pregunta('15', 'Que es lo que buscas en un ambiente de trabajo?')
 ]
 
-def index(request):
-    #ejemplo de como consultar un dato en firebase:
-    name_Emp = database.child('Empresa').child('1').child('nombre_Emp').get().val()
+id_Emp = "0"
 
-    #ejemplo enviar dato de firebase a una vista .html
-    return render(request, 'index.html', {
-        "name_Emp": name_Emp
-    })
+def index(request):
+    return render(request, 'index.html')
 
 def login(request):
     return render(request, 'login.html')
@@ -76,15 +61,55 @@ def about(request):
     return render(request, 'about.html')
 
 def interviews(request):
+    #Load Entrevistas
+    listaEntrevistas.clear()
+    dbent = database.child("Entrevista").get()
+    for ent in dbent.each():
+        if ent.key() >= 1:
+            if database.child("Entrevista").child(ent.key()).child("id_Emp").get().val() == str(id_Emp):
+                #Count Preguntas
+                dbpreg = database.child("Pregunta").get()
+                cont = 0
+                for preg in dbpreg.each():
+                    if preg.key() >= 1:  
+                        if database.child("Pregunta").child(preg.key()).child("id_Ent").get().val() == ent.key():
+                            
+                            cont = cont + 1
+                #Load
+                aliasEnt = database.child("Entrevista").child(ent.key()).child("alias").get().val()
+                fehaIni = database.child("Entrevista").child(ent.key()).child("fecha_Inicio").get().val()
+                fehaFin = database.child("Entrevista").child(ent.key()).child("fecha_Fin").get().val()
+                listaEntrevistas.append(
+                    Entrevista(str(ent.key()), alias, fehaIni, fehaFin, cont)
+                )
     return render(request, 'Brand/interviews.html', {
         "empresa": True,
         "listaEntrevistas": listaEntrevistas
     })
 
 def interview_details(request, id):
+    #Count Preguntas
+    listaPreguntas = []
+    dbpreg = database.child("Pregunta").get()
+    cont = 0
+    for preg in dbpreg.each():
+        if preg.key() >= 1:  
+            if database.child("Pregunta").child(preg.key()).child("id_Ent").get().val() == str(id):
+                id_Preg = preg.key()
+                Preg = database.child("Pregunta").child(preg.key()).child("pregunta").get().val()
+                listaPreguntas.append(
+                    Pregunta(id_Preg, Preg)
+                )
+                cont = cont + 1
+    #Info Entrevista
+    aliasEnt = database.child("Entrevista").child(str(id)).child("alias").get().val()
+    fehaIni = database.child("Entrevista").child(str(id)).child("fecha_Inicio").get().val()
+    fehaFin = database.child("Entrevista").child(str(id)).child("fecha_Fin").get().val()
+    entCons = Entrevista(str(id), aliasEnt, fehaIni, fehaFin, cont)
     return render(request, 'Brand/interview_details.html', {
         "empresa": True,
-        "entrevista": listaEntrevistas[id-1],
+        #"entrevista": listaEntrevistas[id-1]
+        "entrevista": entCons,
         "listaPreguntas": listaPreguntas
     })
 
@@ -103,4 +128,110 @@ def candidate_details(request, id):
 def settings(request):
     return render(request, 'Brand/settings.html', {
         "empresa": True
+    })
+
+def act_login(request):
+    status_login = ""
+    cont = 1
+
+    usr = request.POST.get("txtEmail")
+    pss = request.POST.get("txtPassword")
+    dbemp = database.child("Empresa").get()
+    for emp in dbemp.each():
+        if emp.key() >= 1:
+            if usr == database.child("Empresa").child(emp.key()).child("correo").get().val():
+                if pss == database.child("Empresa").child(emp.key()).child("contrasena").get().val() and database.child("Empresa").child(emp.key()).child("estatus").get().val() == "1":
+                    #código de inicio de sesion-->
+                    id_Emp = emp.key()
+                    #Load Entrevistas
+                    listaEntrevistas = []
+                    dbent = database.child("Entrevista").get()
+                    for ent in dbent.each():
+                        if ent.key() >= 1:
+                            if database.child("Entrevista").child(ent.key()).child("id_Emp").get().val() == str(id_Emp):
+                                #Count Preguntas
+                                dbpreg = database.child("Pregunta").get()
+                                cont = 0
+                                for preg in dbpreg.each():
+                                    if preg.key() >= 1:  
+                                        if database.child("Pregunta").child(preg.key()).child("id_Ent").get().val() == ent.key():
+                                            cont = cont + 1
+                                #Load
+                                aliasEnt = database.child("Entrevista").child(ent.key()).child("alias").get().val()
+                                fehaIni = database.child("Entrevista").child(ent.key()).child("fecha_Inicio").get().val()
+                                fehaFin = database.child("Entrevista").child(ent.key()).child("fecha_Fin").get().val()
+                                listaEntrevistas.append(
+                                    Entrevista(str(ent.key()), aliasEnt, fehaIni, fehaFin, cont)
+                                )
+                    return render(request, 'Brand/interviews.html', {
+                        "empresa": True,
+                        "listaEntrevistas": listaEntrevistas,
+                        "id_Emp": id_Emp
+                    })
+    #código de error de inicio de sesion -->
+    return render(request, 'login.html', {
+        "status_login": status_login
+    })
+
+def act_register(request):
+    #Carga de datos
+    status_register = "Error en registro"
+    name = request.POST.get("txtNameEmp")
+    usr = request.POST.get("txtEmail")
+    pss = request.POST.get("txtPassword")
+    pssConf = request.POST.get("txtCPassword")
+    dbemp = database.child("Empresa").get()
+    #Validar campos
+    if len(pss) < 1 or len(name) < 1 or len(usr) < 1:
+        status_register = "Favor de llenar todos los campos correctamente."
+        return render(request, 'register.html', {
+            "status_register": status_register
+        })
+    if len(pss) < 5:
+        status_register = "La contraseña debe contener al menos 5 caracteres."
+        return render(request, 'register.html', {
+            "status_register": status_register
+        })
+    if pss != pssConf:
+        status_register = "Ambas contraseñas deben coincidir."
+        return render(request, 'register.html', {
+            "status_register": status_register
+        })
+
+    #Validar que no esta el correo registrado aun
+    
+    for emp in dbemp.each():
+        if emp.key() >= 1:
+            if database.child("Empresa").child(emp.key()).child("correo").get().val() == usr:
+                status_register = "Ya esta registrado ese correo, intente con otro."
+                return render(request, 'register.html', {
+                    "status_register": status_register
+                })
+    #Agregar los datos
+    cont = 1
+    for emp in dbemp.each():
+        if emp.key() >= 1:
+            if database.child("Empresa").child(emp.key()).child("id_Emp").get().val() != str(cont):
+                #Se incertan datos en id = str(cont)
+                database.child("Empresa").child(str(cont)).child("id_Emp").set(str(cont))
+                database.child("Empresa").child(str(cont)).child("estatus").set("1")
+                database.child("Empresa").child(str(cont)).child("nombre_Emp").set(name)
+                database.child("Empresa").child(str(cont)).child("correo").set(usr)
+                database.child("Empresa").child(str(cont)).child("contrasena").set(pss)
+                status_register = "Registro de Empresa exitosa en id = " + str(cont)
+                return render(request, 'login.html', {
+                    "status_login": status_register
+                })
+            else:
+                cont = cont + 1
+    #Se incertan datos en id = str(cont)
+    database.child("Empresa").child(str(cont)).child("id_Emp").set(str(cont))
+    database.child("Empresa").child(str(cont)).child("estatus").set("1")
+    database.child("Empresa").child(str(cont)).child("nombre_Emp").set(name)
+    database.child("Empresa").child(str(cont)).child("correo").set(usr)
+    database.child("Empresa").child(str(cont)).child("contrasena").set(pss)
+    status_register = "Registro de Empresa exitosa en id = " + str(cont)
+    #Error
+    return render(request, 'login.html', {
+        "status_login": status_register
     })
