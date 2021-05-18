@@ -1,0 +1,37 @@
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+    <a href="/" class="navbar-brand">Auto Interview Analyzer</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'candidatos' %}" class="nav-link">Candidatos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'entrevistas' %}" class="nav-link">Entrevistas</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Empresa</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownId">
+                        <a class="dropdown-item" href="{% url 'vacantes' %}">Vacantes</a>
+                        <a class="dropdown-item" href="{% url 'configuracion' %}">Configuracion</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}" class="nav-link">Cerrar Sesion</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'codigo_candidato' %}" class="nav-link">Candidato</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'login' %}" class="nav-link">Empresa</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %} Vacantes {% endblock %}
+
+{% block js %}
+    <script>
+        function eliminarVacante(id) {
+            Swal.fire({
+                "title": "¿Estás seguro?",
+                "text": "Esta acción no se puede deshacer",
+                "icon": "question",
+                "showCancelButton": true,
+                "cancelButtonText": "No, cancelar",
+                "confirmButtonText": "Si, eliminar",
+                "reverseButtons": true,
+                "confirmButtonColor": "#dc3545"
+            })
+            .then(function(result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/empresas/vacantes/" + id + "/eliminar"
+                }
+            })
+        }
+    </script>
+{% endblock %}
+
+{% block content %} 
+
+<style>
+    .scrollable {
+        height: 100%;
+    }
+</style>
+
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-10 offset-md-1">
+            <h1>Vacantes</h1>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-2 offset-md-2">
+            <a href="{% url 'agregar_vacante' %}">
+                <button type="button" class="btn btn-success">Crear</button>
+            </a>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-12 col-md-10 offset-md-1 ">
+            {% if listaVacantes %}
+            <div class="scrollable">
+                <table class="table table-striped table-hover table-responsive-sm text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Reg #</th>
+                            <th scope="col">Vacante</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vacante in listaVacantes %}
+                            <tr scope="row">
+                                <td>{{vacante.id}}</td>
+                                <td>{{vacante.vacante}}</td>
+                                <td>
+                                    <a href="{% url 'detalle_vacante' vacante.id %}" class="btn btn-primary">Modificar</a>
+                                    <a href="#" onclick="eliminarVacante({{ vacante.id }})" class="btn btn-danger">Eliminar</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
