@@ -38,6 +38,12 @@ _Bootstrap 4_
 ```
 pip install django-bootstrap4
 ```
+
+_Crispy Forms
+```
+pip install -r requirements.txt
+```
+
 ## Ejecutar la aplicacion
 Para ejecutar la aplicacion basta correr el siguiente comando:
 
