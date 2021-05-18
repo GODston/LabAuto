@@ -80,7 +80,7 @@ class EntrevistaView(View):
         messages.success(request, "Se ha eliminado la entrevista correctamente")
         return redirect(to="entrevistas")
 
-class PreguntasView:
+class PreguntasView(View):
 
     def delete_pregunta(request, entrevista_id, pregunta_id):
         pregunta = get_object_or_404(Pregunta, id=pregunta_id)

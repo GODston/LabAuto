@@ -4,6 +4,28 @@
     Detalle Entrevista
 {% endblock %}
 
+{% block js %}
+    <script>
+        function eliminarPregunta(entrevista_id, pregunta_id) {
+            Swal.fire({
+                "title": "¿Estás seguro?",
+                "text": "Esta acción no se puede deshacer",
+                "icon": "question",
+                "showCancelButton": true,
+                "cancelButtonText": "No, cancelar",
+                "confirmButtonText": "Si, eliminar",
+                "reverseButtons": true,
+                "confirmButtonColor": "#dc3545"
+            })
+            .then(function(result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/entrevistas/" + entrevista_id + "/preguntas/" + pregunta_id + "/eliminar"
+                }
+            })
+        }
+    </script>
+{% endblock %}
+
 {% block content %} 
 {% load crispy_forms_tags %}
 <br>
@@ -84,7 +106,7 @@
                                             <td>{{pregunta.id}}</td>
                                             <td>{{pregunta.pregunta}}</td>
                                             <td>
-                                                <a href="{% url 'eliminar_pregunta' entrevista.id pregunta.id %}" class="btn btn-danger">Eliminar</a>
+                                                <a href="#" onclick="eliminarPregunta({{entrevista.id}}, {{pregunta.id}})" class="btn btn-danger">Eliminar</a>
                                             </td>
                                         </tr>
                                     </tbody>

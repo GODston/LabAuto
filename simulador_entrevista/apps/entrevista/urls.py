@@ -9,8 +9,5 @@ urlpatterns = [
     path('<int:id>/eliminar', EntrevistaView.delete_entrevista, name="eliminar_entrevista"), ## Elimina la entrevista
 
     ## Preguntas
-    ##path('<int:id>/preguntas', PreguntasView.list, name="preguntas"), ## Obtiene lista de preguntas
-    ##path('preguntas/agregar', PreguntasView.add_pregunta, name="agregar_pregunta"), ## Agrega pregunta
-    ## path('<int:id>/preguntas/<int:pregunta_id>', PreguntasView.update_pregunta, name="actualizar_pregunta"), ## Actualiza la pregunta
     path('<int:entrevista_id>/preguntas/<int:pregunta_id>/eliminar', PreguntasView.delete_pregunta, name="eliminar_pregunta"), ## Elimina la pregunta
 ]
