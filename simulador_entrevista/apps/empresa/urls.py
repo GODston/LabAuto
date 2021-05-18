@@ -1,11 +1,10 @@
-from django.urls import path
-from django.urls import path
+from django.urls import path, include
 from .views import EmpresaView, VacanteView, CriterioView
 
 urlpatterns = [
     ## Sesion / Usuario
-    path('login', EmpresaView.login, name="inicio_sesion"),
-    path('registro', EmpresaView.register, name="registro"),
+    path('', include('django.contrib.auth.urls')),
+    path('registro/', EmpresaView.register, name="registro"),
     path('configuracion', EmpresaView.settings, name="configuracion"),
 
     ## Vacantes

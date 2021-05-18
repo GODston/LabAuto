@@ -13,7 +13,6 @@ class EntrevistaView(View):
     def list(request):
         entrevistas = Entrevista.objects.all()
         data = {
-            "empresa": True,
             "listaEntrevistas": entrevistas
         }
         return render(request, 'entrevista/listar.html', data)
@@ -21,7 +20,6 @@ class EntrevistaView(View):
     ## Agregar entrevista
     def add_entrevista(request):
         data = {
-            'empresa': True,
             'formEntrevista': AgregarEntrevistaForm()
         }   
         ## Metodo post    
@@ -45,7 +43,6 @@ class EntrevistaView(View):
     
         ##listaPreguntas = Pregunta.objects.get(entrevista=entrevista.id)
         data = {
-            'empresa': True,
             'entrevista': entrevista,
             'formEntrevista': EntrevistaForm(instance=entrevista),
             'formAgregarPregunta': AgregarPreguntaForm(instance=nuevaPregunta),
@@ -63,7 +60,7 @@ class EntrevistaView(View):
                 data["formEntrevista"] = formEntrevista
 
             ## Se agrega pregunta
-            formAgregarPregunta = AgregarPreguntaForm(data=request.POST)
+            formAgregarPregunta = AgregarPreguntaForm(data=request.POST, instance=Pregunta(entrevista=entrevista))
             if formAgregarPregunta.is_valid():
                 formAgregarPregunta.save()
                 messages.success(request, "Se ha registrado la pregunta correctamente")

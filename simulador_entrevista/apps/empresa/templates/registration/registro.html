@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Registro Empresa {% endblock %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container-fluid">
+        <br/>
+        <div class="row">
+            <div class="card col-12 col-md-10 offset-md-1">
+                <div class="card-body">
+                    <h1 class="card-title text-primary font-weight-bold text-center">Crea tu cuenta</h1>
+                    <hr>
+
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="text-info">Datos de acceso</h4><hr>
+                                        {{ form | crispy }}
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="text-info">Empresa</h4><hr>
+                                        {{ formAgregarEmpresa | crispy }}                
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="text-info">Datos Personales</h4><hr>
+                                        {{ formPersona | crispy }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Unirse</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--
+            <div class="col-12 col-md-6">
+                <img src="{% static 'img/register.jpg' %}" 
+                class="img-fluid" alt="img-register"/>
+            </div> 
+            -->
+        </div>         
+    </div>
+    <br/>
+    <br/> 
+    <br/>     
+{% endblock %}

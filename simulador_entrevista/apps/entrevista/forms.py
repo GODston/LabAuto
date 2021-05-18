@@ -12,7 +12,7 @@ class AgregarPreguntaForm(forms.ModelForm):
 
     class Meta:
         model = Pregunta
-        fields = {'pregunta', 'entrevista'}
+        fields = {'pregunta'}
 
 class EntrevistaForm(forms.ModelForm):
     

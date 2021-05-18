@@ -1,18 +1,24 @@
 from django import forms
 from django.forms import fields, widgets
-from .models import Vacante, Criterio
+from .models import Empresa, Vacante, Criterio
+from django.contrib.auth.forms import UserCreationForm
+
+class AgregarEmpresaForm(forms.ModelForm):
+    class Meta:
+        model = Empresa
+        fields = {"empresa", "correo"}
 
 class VacanteForm(forms.ModelForm):
 
     class Meta:
         model = Vacante
-        fields = '__all__'
+        fields = {"vacante"}
 
 class AgregarVacanteForm(forms.ModelForm):
     
     class Meta:
         model = Vacante
-        fields = {"nombre", "empresa"}
+        fields = {"vacante", "empresa"}
 
 class CriterioForm(forms.ModelForm):
 
@@ -24,4 +30,7 @@ class AgregarCriterioForm(forms.ModelForm):
 
     class Meta:
         model = Criterio
-        fields = {"criterio", "puntuacion", "vacante"}
+        fields = {"criterio", "puntuacion"}
+
+class CustomUserCreationForm(UserCreationForm):
+    id

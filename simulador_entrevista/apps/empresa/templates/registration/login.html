@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Inicio de Sesion {% endblock %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+    <br/>
+    <div class="container-fluid">   
+        <div class="row">
+            <div class="card col-12 col-md-3 offset-md-1 ">
+                <div class="card-body">
+                    <!-- Titulo -->
+                    <div class="row">
+                        <p class="col-sm-1"></p>
+                        <h1 class="card-title text-primary font-weight-bold">Iniciar sesion</h1>
+                    </div>
+
+                    <!-- Enlace para registrarse -->
+                    <div class="row">
+                        <p class="col-sm-1"></p>
+                        <p class="col-sm-5">No tienes usuario?</p>
+                        <a href="{% url 'registro' %}" class="col-sm-5 text-primary">Crear una cuenta</a>
+                    </div>
+
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+
+                        <input type="submit" value="Ingresar" class="btn btn-primary">
+                    </form>
+                </div>
+            </div>  
+
+            <div class="col-12 col-md-8">
+                <img src="{% static 'img/login.jpg' %}" 
+                class="img-fluid" alt="img-login"/>
+            </div> 
+        </div>         
+    </div>
+{% endblock %}

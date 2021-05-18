@@ -17,15 +17,15 @@ class Candidato(models.Model):
     persona = models.ForeignKey(
         Persona, 
         on_delete=models.CASCADE,
-        verbose_name="Relacion del candidato con informacion de persona"
+        verbose_name="Referencia persona"
     )
     vacante = models.ForeignKey(
         Vacante, 
         on_delete=models.PROTECT,
-        verbose_name="Relacion de candidato con la vacante"
+        verbose_name="Vacante a la que aplica"
     )
-    fechaRegistro = models.DateTimeField(default=datetime.datetime.now())
-    fechaEntrevista = models.DateTimeField(default=datetime.datetime.now())
+    fechaRegistro = models.DateTimeField(default=datetime.datetime.now(), verbose_name="Fecha de registro")
+    fechaEntrevista = models.DateTimeField(default=datetime.datetime.now(), verbose_name="Fecha de entrevista")
 
     def __str__(self):
         return self.codigo

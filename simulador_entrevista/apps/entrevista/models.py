@@ -13,7 +13,7 @@ class Entrevista(models.Model):
     vacante = models.ForeignKey(
         Vacante, 
         on_delete=models.CASCADE,
-        verbose_name="Relacion de la entrevista con la vacante"
+        verbose_name="Vacante"
     )
     
     def __str__(self):
@@ -28,7 +28,7 @@ class Pregunta(models.Model):
     entrevista = models.ForeignKey(
         Entrevista, 
         on_delete=models.CASCADE,
-        verbose_name="Relacion de la pregunta con la entrevista"
+        verbose_name="Entrevista"
     )
 
     def __str__(self):
@@ -41,12 +41,12 @@ class ContestaEntrevista(models.Model):
     entrevista = models.ForeignKey(
         Entrevista, 
         on_delete=models.PROTECT,
-        verbose_name="Relacion de respuestas con la entrevista"
+        verbose_name="Entrevista"
     )
     candidato = models.ForeignKey(
         Candidato, 
         on_delete=models.PROTECT,
-        verbose_name="Relacion de respuestas con candidato"
+        verbose_name="Candidato"
     )
 
     def __str__(self):
@@ -59,7 +59,7 @@ class Respuesta(models.Model):
     contesta_entrevista = models.ForeignKey(
         ContestaEntrevista, 
         on_delete=models.PROTECT,
-        verbose_name="Relacion con contestacion entrevistado"
+        verbose_name="Contestado por"
     )
 
     def __str__(self):

@@ -7,7 +7,7 @@
     
     <div class="collapse navbar-collapse" id="navbarMenu">
         <ul class="navbar-nav ml-auto">
-            {% if empresa %}
+            {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a href="{% url 'candidatos' %}" class="nav-link">Candidatos</a>
                 </li>
@@ -22,14 +22,14 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'inicio_sesion' %}" class="nav-link">Cerrar Sesion</a>
+                    <a href="{% url 'logout' %}" class="nav-link">Cerrar Sesion</a>
                 </li>
             {% else %}
                 <li class="nav-item">
                     <a href="{% url 'codigo_candidato' %}" class="nav-link">Candidato</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'inicio_sesion' %}" class="nav-link">Empresa</a>
+                    <a href="{% url 'login' %}" class="nav-link">Empresa</a>
                 </li>
             {% endif %}
         </ul>

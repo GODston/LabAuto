@@ -1,23 +1,45 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View
-from .models import Vacante, Criterio
-from .forms import AgregarVacanteForm, VacanteForm, AgregarCriterioForm
+from .models import Vacante, Criterio, Empresa
+from .forms import AgregarEmpresaForm, AgregarVacanteForm, VacanteForm, AgregarCriterioForm, CustomUserCreationForm
+from apps.persona.forms import PersonaForm
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
 class EmpresaView(View):
 
-    def login(request):
-        return render(request, 'empresa/login.html')
-
     def register(request):
-        return render(request, 'empresa/register.html')
+
+        data = {
+            'form': CustomUserCreationForm(),
+            'formPersona': PersonaForm(),
+            'formAgregarEmpresa': AgregarEmpresaForm(),
+        }
+
+        if request.method == 'POST':
+            formUsuario = CustomUserCreationForm(data=request.POST)
+            formPersona = PersonaForm(data=request.POST)
+            formAgregarEmpresa = AgregarEmpresaForm(data=request.POST)
+            if formUsuario.is_valid() and formPersona.is_valid() and formAgregarEmpresa.is_valid():
+                user = formUsuario.save()
+                persona = formPersona.save()
+                empresa = Empresa(persona=persona, usuario=user)
+                formAgregarEmpresa = AgregarEmpresaForm(data=request.POST, instance=empresa)
+                formAgregarEmpresa.save()
+                user = authenticate(username=formUsuario.cleaned_data["username"], password=formUsuario.cleaned_data["password1"])
+                login(request, user)
+                messages.success(request, "Se ha creado el usuario correctamente")
+                return redirect(to="candidatos")
+            else:
+                data["form"] = formUsuario
+                data["formPersona"] = formPersona
+                data["formAgregarEmpresa"] = formAgregarEmpresa
+
+        return render(request, 'registration/registro.html', data)
 
     def settings(request):
-        data = {
-            'empresa': True
-        }
-        return render(request, 'settings.html', data)
+        return render(request, 'empresa/settings.html')
 
 
 class VacanteView(View):
@@ -25,7 +47,6 @@ class VacanteView(View):
     def get(request):
         listaVacantes = Vacante.objects.all()
         data = {
-            'empresa': True,
             'listaVacantes': listaVacantes
         }
         return render(request, 'vacante/listar.html', data)
@@ -33,7 +54,6 @@ class VacanteView(View):
     ## Agregar vacante
     def add_vacante(request):
         data = {
-            'empresa': True,
             'formVacante': AgregarVacanteForm()
         }
 
@@ -56,7 +76,6 @@ class VacanteView(View):
         listaCriterios = Criterio.objects.filter(vacante=id)
 
         data = {
-            'empresa': True,
             'vacante': vacante,
             'formVacante': formVacante,
             'formAgregarCriterio': AgregarCriterioForm(instance=nuevoCriterio),
@@ -72,7 +91,7 @@ class VacanteView(View):
             else:
                 data["formVacante"] = formVacante
             
-            formAgregarCriterio = AgregarCriterioForm(data=request.POST)
+            formAgregarCriterio = AgregarCriterioForm(data=request.POST, instance=Criterio(vacante=vacante))
             if formAgregarCriterio.is_valid():
                 formAgregarCriterio.save()
                 messages.success(request, "Se ha guardado la informacion correctamente")

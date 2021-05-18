@@ -6,7 +6,7 @@ class CandidatoForm(forms.ModelForm):
 
     class Meta:
         model = Candidato
-        fields = '__all__'
+        fields = {"fechaEntrevista", "fechaRegistro", "vacante", "estatus", "puntuacion", "codigo"}
         widgets = {
             "fechaRegistro": forms.SelectDateWidget(),
             "fechaEntrevista": forms.SelectDateWidget()
@@ -16,7 +16,7 @@ class AgregarCandidatoForm(forms.ModelForm):
     
     class Meta:
         model = Candidato 
-        fields = {"persona", "vacante"}
+        fields = {"vacante"}
         widgets = {
             "fechaRegistro": forms.SelectDateWidget(),
             "fechaEntrevista": forms.SelectDateWidget()

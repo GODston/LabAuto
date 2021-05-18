@@ -25,37 +25,31 @@
 
     <!-- Registro -->
     <div class="row">
-        <div class="col-12 col-sm-5 offset-md-1">
+        <div class="col-12 col-md-10 offset-md-1">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Infomación personal</h4>
-                    <hr>
                     <form action="" method="post">
                         {% csrf_token %}
-                        {{ formPersona | crispy }}
-                        <hr>
-                        {{ mensaje }}
-                        <br/>
-                        <div class="d-flex justify-content-end">
-                            <input type="reset" value="Borrar" class="btn btn-secondary">
-                            &nbsp;
-                            <button type="submit" id="btnEnviar" class="btn btn-success">Guardar</button>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="text-info">Infomación personal</h4>
+                                        <hr>
+                                        {{ formPersona | crispy }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="text-info">Asignacion Vacante</h4><hr>
+                                        {{ formCandidato | crispy }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-5">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Asignacion Vacante</h4>
-                    <hr>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        {{ formCandidato | crispy }}
                         <hr>
-                        {{ mensaje }}
-                        <br/>
                         <div class="d-flex justify-content-end">
                             <input type="reset" value="Borrar" class="btn btn-secondary">
                             &nbsp;
