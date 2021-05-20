@@ -11,6 +11,32 @@
                     <br/>
                     <h1 class="font-weight-bold">Entrevista para {{ candidatoInfo.vacante.vacante }} </h1>
                     <hr>
+                    {% if listaPreguntas %}
+                    <div class="scrollable">
+                        <table class="table table-striped table-hover text-center table-fixed" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Pregunta</th>
+                                    <th scope="col">Respuesta</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pregunta in listaPreguntas %}
+                                    <tr id="{{pregunta.id}}" scope="row" class="tr-pregunta">
+                                        <td>{{pregunta.pregunta}}</td>
+                                        <td >En espera...</td>
+                                        <td>
+                                            <a href= "{% url 'responder_pregunta' candidatoInfo.id pregunta.id %}">
+                                                <button type="button" class="btn btn-primary">Responder</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
                 </div>  
             </div>    
         </div>

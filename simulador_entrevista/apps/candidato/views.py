@@ -1,3 +1,6 @@
+from apps.entrevista.models import Entrevista
+from apps.entrevista.models import Pregunta
+from apps.empresa.models import Vacante
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from django.contrib import messages
@@ -6,6 +9,7 @@ from .models import Candidato
 from .forms import CandidatoForm, AgregarCandidatoForm, CodigoCandidato
 from apps.persona.forms import PersonaForm
 from apps.persona.models import Persona
+import speech_recognition as sr
 
 # Create your views here.
 
@@ -35,6 +39,7 @@ class CodigoCandidatoView(View):
     ## Vista de bienvenida para la entrevista
     def welcome_entrevista(request, id):
         candidato = get_object_or_404(Candidato, id=id)
+        
         data = {
             "candidatoInfo": candidato
         }
@@ -44,10 +49,13 @@ class CodigoCandidatoView(View):
     ## Vista de inicio de la entrevista
     def init_entrevista(request, id):
         candidato = get_object_or_404(Candidato, id=id)
+        vac = get_object_or_404(Vacante, vacante = candidato.vacante)
+        ent = get_object_or_404(Entrevista, vacante = vac.id)
+        preguntas = Pregunta.objects.filter(entrevista = ent.id)
         data = {
-            "candidatoInfo": candidato
+            "candidatoInfo": candidato,
+            "listaPreguntas": preguntas
         }
-
         return render(request, 'codigo_candidato/inicio_entrevista.html', data)
     
     ## Vista para guardar la entrevista
@@ -57,6 +65,24 @@ class CodigoCandidatoView(View):
             "candidatoInfo": candidato
         }
         return render(request, 'codigo_candidato/guardar_entrevista.html', id)
+
+    def record(request, id, preg):
+        r = sr.Recognizer()
+        respuesta = "No Funciono"
+        with sr.Microphone() as source:
+            audio = r.listen(source)
+            respuesta = r.recognize_google(audio)
+
+        ## Guardar Respuesta
+        candidato = get_object_or_404(Candidato, id=id)
+        vac = get_object_or_404(Vacante, vacante = candidato.vacante)
+        ent = get_object_or_404(Entrevista, vacante = vac.id)
+        preguntas = Pregunta.objects.filter(entrevista = ent.id)
+        data = {
+            "candidatoInfo": candidato,
+            "listaPreguntas": preguntas,
+        }
+        return render(request, 'codigo_candidato/inicio_entrevista.html', data)
 
 class CandidatoView(View):
     def get(request): 
@@ -121,4 +147,5 @@ class CandidatoView(View):
         candidato.delete()
         messages.success(request, "Se ha eliminado el registro correctamente")
         return redirect(to="candidatos")
+
     
