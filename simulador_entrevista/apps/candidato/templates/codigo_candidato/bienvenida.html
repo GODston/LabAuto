@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Bienvenida {% endblock %}
+
+{% block content %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <br/>
+                    <h1 class="font-weight-bold text-center">Bienvenido a tu entrevista <br> {{ candidatoInfo.persona.nombre }} </h1>
+                    <hr>
+                    <p>
+                        A continuación mostramos una lista de tu información personal para confirmar tu identidad,
+                         una vez confirmada da click al botón "Confirmar que soy yo"
+                         <br/><br/>
+                         <strong>Nota: </strong><small>En caso de que no sean tus datos, te pedimos que contactes con el personal de recursos humanos</small>
+                    </p>
+                    <table class="table table-responsive-sm col-12 col-md-10 offset-md-1">
+                        <tr>
+                            <td colspan="2" class="text-center"><h4>Información personal</h4></td>
+                        </tr>    
+                        <tr>
+                                <td>Codigo: </td>
+                                <td>{{ candidatoInfo.codigo }}</td>
+                            </tr>
+                            <tr>
+                                <td>Nombre: </td>
+                                <td>{{ candidatoInfo.persona.nombre }}</td>
+                            </tr>
+                            <tr>
+                                <td>Apellido Paterno: </td>
+                                <td>{{ candidatoInfo.persona.ap_paterno}}</td>
+                            </tr>
+                            <tr>
+                                <td>Apellido Materno: </td>
+                                <td>{{ candidatoInfo.persona.ap_materno}}</td>
+                            </tr>
+                            <tr>
+                                <td>Edad: </td>
+                                <td>{{ candidatoInfo.persona.edad }}</td>
+                            </tr>
+                            <tr>
+                                <td>Sexo: </td>
+                                <td>{{ candidatoInfo.persona.sexo }}</td>
+                            </tr>
+                            <tr>
+                                <td>Vacante a la que aplica:</td>
+                                <td>{{ candidatoInfo.vacante.vacante}}</td>
+                            </tr>
+                    </table>
+                    <hr>
+                    <div class="d-flex justify-content-center">
+                        <a href="{% url 'inicio_entrevista' candidatoInfo.id %}" class="btn btn-primary">Confirmo que soy yo</a>
+                    </div>
+                    
+                </div>  
+                <div class="col-12 col-md-6">
+                    <br><br><br>
+                    <img src="{% static 'img/about.jpg' %}" 
+                    class="img-fluid" alt="img-entrevista"/>
+                </div> 
+            </div>    
+            <br><br><br>     
+        </div>
+{% endblock %}

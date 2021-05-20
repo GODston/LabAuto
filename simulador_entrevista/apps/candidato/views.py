@@ -10,6 +10,8 @@ from apps.persona.models import Persona
 # Create your views here.
 
 class CodigoCandidatoView(View):
+
+    ## Vista de buscar codigo
     def search_code(request):
          
         data = {
@@ -19,16 +21,43 @@ class CodigoCandidatoView(View):
         if request.method == 'POST':
             formCodigo = CodigoCandidato(data=request.POST)
             codigo = request.POST["codigo"]
-            candidato = Candidato.objects.filter(codigo=codigo)
+            candidato = get_object_or_404(Candidato, codigo=codigo)
 
             if candidato:
-                return redirect(to="")
+                return redirect(to="bienvenida_entrevista", id=candidato.id)
             else:
                 messages.error(request, 'Codigo no encontrado')
                 data["form"] = formCodigo
                 return redirect(to="codigo_candidato")
         
-        return render(request, 'codigo_candidato/index.html', data)
+        return render(request, 'codigo_candidato/inicio_candidato.html', data)
+
+    ## Vista de bienvenida para la entrevista
+    def welcome_entrevista(request, id):
+        candidato = get_object_or_404(Candidato, id=id)
+        data = {
+            "candidatoInfo": candidato
+        }
+
+        return render(request, 'codigo_candidato/bienvenida.html', data)
+
+    ## Vista de inicio de la entrevista
+    def init_entrevista(request, id):
+        candidato = get_object_or_404(Candidato, id=id)
+        data = {
+            "candidatoInfo": candidato
+        }
+
+        return render(request, 'codigo_candidato/inicio_entrevista.html', data)
+    
+    ## Vista para guardar la entrevista
+    def save_entrevista(request, id):
+        candidato = get_object_or_404(Candidato, id=id)
+        data = {
+            "candidatoInfo": candidato
+        }
+        return render(request, 'codigo_candidato/guardar_entrevista.html', id)
+
 class CandidatoView(View):
     def get(request): 
         candidatos = Candidato.objects.all()

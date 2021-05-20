@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Entrevista {% endblock %}
+
+{% block content %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-10 offset-1">
+                    <br/>
+                    <h1 class="font-weight-bold">Entrevista para {{ candidatoInfo.vacante.vacante }} </h1>
+                    <hr>
+                </div>  
+            </div>    
+        </div>
+{% endblock %}
