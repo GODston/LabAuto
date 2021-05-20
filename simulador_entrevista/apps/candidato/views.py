@@ -66,12 +66,16 @@ class CodigoCandidatoView(View):
         }
         return render(request, 'codigo_candidato/guardar_entrevista.html', id)
 
-    def record(request, id, preg):
+    def record(request, id, respuesta):
         r = sr.Recognizer()
         respuesta = "No Funciono"
         with sr.Microphone() as source:
             audio = r.listen(source)
-            respuesta = r.recognize_google(audio)
+            try:
+                respuesta = r.recognize_google(audio, language="es-419")
+                print(respuesta)
+            except:
+                print("error")
 
         ## Guardar Respuesta
         candidato = get_object_or_404(Candidato, id=id)

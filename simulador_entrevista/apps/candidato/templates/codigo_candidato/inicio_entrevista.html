@@ -27,7 +27,7 @@
                                         <td>{{pregunta.pregunta}}</td>
                                         <td >En espera...</td>
                                         <td>
-                                            <a href= "{% url 'responder_pregunta' candidatoInfo.id pregunta.id %}">
+                                            <a href= "{% url 'responder_pregunta' id=candidatoInfo.id respuesta=pregunta.id %}">
                                                 <button type="button" class="btn btn-primary">Responder</button>
                                             </a>
                                         </td>
