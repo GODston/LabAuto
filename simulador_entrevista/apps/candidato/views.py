@@ -3,22 +3,32 @@ from django.views.generic import View
 from django.contrib import messages
 from datetime import datetime
 from .models import Candidato
-from .forms import CandidatoForm, AgregarCandidatoForm
+from .forms import CandidatoForm, AgregarCandidatoForm, CodigoCandidato
 from apps.persona.forms import PersonaForm
 from apps.persona.models import Persona
 
 # Create your views here.
 
 class CodigoCandidatoView(View):
-
-    def get(request):
-        return render(request, 'codigo_candidato/index.html')
-
     def search_code(request):
-        codigo = request.GET["txtCode"]
-        
-        return render(request)
+         
+        data = {
+            "form": CodigoCandidato()
+        }
 
+        if request.method == 'POST':
+            formCodigo = CodigoCandidato(data=request.POST)
+            codigo = request.POST["codigo"]
+            candidato = Candidato.objects.filter(codigo=codigo)
+
+            if candidato:
+                return redirect(to="")
+            else:
+                messages.error(request, 'Codigo no encontrado')
+                data["form"] = formCodigo
+                return redirect(to="codigo_candidato")
+        
+        return render(request, 'codigo_candidato/index.html', data)
 class CandidatoView(View):
     def get(request): 
         candidatos = Candidato.objects.all()

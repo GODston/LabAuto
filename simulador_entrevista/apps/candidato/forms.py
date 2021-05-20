@@ -21,3 +21,8 @@ class AgregarCandidatoForm(forms.ModelForm):
             "fechaRegistro": forms.SelectDateWidget(),
             "fechaEntrevista": forms.SelectDateWidget()
         }
+
+class CodigoCandidato(forms.ModelForm):
+    class Meta:
+        model = Candidato
+        fields = {"codigo"}

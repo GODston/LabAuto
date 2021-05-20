@@ -3,7 +3,7 @@ from .views import CodigoCandidatoView, CandidatoView
 
 urlpatterns = [
     ## Candidato / Postulante
-    path('', CodigoCandidatoView.get, name="codigo_candidato"),
+    path('', CodigoCandidatoView.search_code, name="codigo_candidato"),
     path('candidato/codigo', CodigoCandidatoView.search_code, name="buscar_codigo"),
 
     ## Candidatos vistos por la empresa

@@ -7,6 +7,7 @@
 
 <!--Se configura el contenido de la pagina-->
 {% block content %}
+{% load crispy_forms_tags %}
     <div class="container-fluid">
         <br/>
         <div class="row">
@@ -18,16 +19,10 @@
                         <h1 class="card-title text-primary font-weight-bold">Bienvenido candidato</h1>
                     </div>
 
-                    <form>
-                        <div class="form-group row">
-                            <p class="col-sm-1"></p>
-                            <label for="txtCode" class="col-sm-10">Ingrese su codigo: </label>
-                        </div>
-                        <div class="form-group row">
-                            <p class="col-sm-1"></p>
-                            <input type="text" class="form-control col-sm-10" id="txtCode" name="txtCode" placeholder="Ejemplo: RH-000000">
-                        </div>
-                        <br/>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                        <hr><br/>
                         <div class="row">
                             <label for="" class="col-sm-1"></label>
                             <button type="submit" class="btn btn-primary col-sm-10">Entrar</button>
