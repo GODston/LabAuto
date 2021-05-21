@@ -54,7 +54,11 @@ class CodigoCandidatoView(View):
         vac = get_object_or_404(Vacante, vacante = candidato.vacante)
         ent = get_object_or_404(Entrevista, vacante = vac.id)
         preguntas = Pregunta.objects.filter(entrevista = ent.id)
-        
+        ce = ContestaEntrevista(
+            puntuacion = 0, 
+            entrevista = ent, 
+            candidato = candidato)
+        ce.save()
         data = {
             "candidatoInfo": candidato,
             "listaPreguntas": preguntas,
@@ -65,13 +69,6 @@ class CodigoCandidatoView(View):
     ## Vista para guardar la entrevista
     def save_entrevista(request, id):
         cand = get_object_or_404(Candidato, id=id)
-        vac = get_object_or_404(Vacante, vacante = cand.vacante)
-        ent = get_object_or_404(Entrevista, vacante = vac.id)
-        ce = ContestaEntrevista(
-            puntuacion = 0, 
-            entrevista = ent, 
-            candidato = cand)
-        ce.save()
         data = {
             "candidatoInfo": cand
         }
@@ -89,7 +86,7 @@ class CodigoCandidatoView(View):
         cand = get_object_or_404(Candidato, id=id)
         vac = get_object_or_404(Vacante, vacante = cand.vacante)
         ent = get_object_or_404(Entrevista, vacante = vac.id)
-        preguntas = Pregunta.objects.filter(entrevista = ent.id)
+        preguntas = Pregunta.objects.filter(entrevista = ent)
         ce = get_object_or_404(ContestaEntrevista, candidato = cand)
         rsp = Respuesta(
             respuesta = respuesta_aud,
