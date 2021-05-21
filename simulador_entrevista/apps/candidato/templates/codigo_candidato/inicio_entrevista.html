@@ -28,9 +28,16 @@
                             </tbody>
                         </table>
                     </div>
-                    <a href= "{% url 'responder_pregunta' id=candidatoInfo.id %}">
-                        <button type="button" class="btn btn-primary">Responder</button>
+                    <a href= "{% url 'responder_pregunta' id=candidatoInfo.id sts=sts %}">
+                        <button type="button" class="btn btn-primary">{{BtnName}}</button>
                     </a>
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                     <h5>{{respuesta_audio}}</h5>
                     <hr>
                     <a href= "{% url 'evaluar_respuesta' id=candidatoInfo.id %}">
