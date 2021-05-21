@@ -17,25 +17,25 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Pregunta</th>
-                                    <th scope="col">Respuesta</th>
-                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for pregunta in listaPreguntas %}
                                     <tr id="{{pregunta.id}}" scope="row" class="tr-pregunta">
                                         <td>{{pregunta.pregunta}}</td>
-                                        <td >En espera...</td>
-                                        <td>
-                                            <a href= "{% url 'responder_pregunta' id=candidatoInfo.id respuesta=pregunta.id %}">
-                                                <button type="button" class="btn btn-primary">Responder</button>
-                                            </a>
-                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
+                    <a href= "{% url 'responder_pregunta' id=candidatoInfo.id %}">
+                        <button type="button" class="btn btn-primary">Responder</button>
+                    </a>
+                    <h5>{{respuesta_audio}}</h5>
+                    <hr>
+                    <a href= "{% url 'evaluar_respuesta' id=candidatoInfo.id %}">
+                        <button type="button" class="btn btn-primary">Enviar</button>
+                    </a>
                     {% endif %}
                 </div>  
             </div>    

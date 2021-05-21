@@ -1,5 +1,7 @@
 from apps.entrevista.models import Entrevista
 from apps.entrevista.models import Pregunta
+from apps.entrevista.models import ContestaEntrevista
+from apps.entrevista.models import Respuesta
 from apps.empresa.models import Vacante
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
@@ -52,41 +54,63 @@ class CodigoCandidatoView(View):
         vac = get_object_or_404(Vacante, vacante = candidato.vacante)
         ent = get_object_or_404(Entrevista, vacante = vac.id)
         preguntas = Pregunta.objects.filter(entrevista = ent.id)
+        
         data = {
             "candidatoInfo": candidato,
-            "listaPreguntas": preguntas
+            "listaPreguntas": preguntas,
+            "respuesta_audio": "En espera..."
         }
         return render(request, 'codigo_candidato/inicio_entrevista.html', data)
     
     ## Vista para guardar la entrevista
     def save_entrevista(request, id):
-        candidato = get_object_or_404(Candidato, id=id)
+        cand = get_object_or_404(Candidato, id=id)
+        vac = get_object_or_404(Vacante, vacante = cand.vacante)
+        ent = get_object_or_404(Entrevista, vacante = vac.id)
+        ce = ContestaEntrevista(
+            puntuacion = 0, 
+            entrevista = ent, 
+            candidato = cand)
+        ce.save()
         data = {
-            "candidatoInfo": candidato
+            "candidatoInfo": cand
         }
-        return render(request, 'codigo_candidato/guardar_entrevista.html', id)
+        return render(request, 'codigo_candidato/guardar_entrevista.html', data)
 
-    def record(request, id, respuesta):
+    def record(request, id):
         r = sr.Recognizer()
-        respuesta = "No Funciono"
+        respuesta_aud = "No Funciono"
         with sr.Microphone() as source:
-            audio = r.listen(source)
+            audio = r.listen(source, timeout=2)
             try:
-                respuesta = r.recognize_google(audio, language="es-419")
-                print(respuesta)
+                respuesta_aud = r.recognize_google(audio, language="es-419")
             except:
-                print("error")
-
-        ## Guardar Respuesta
-        candidato = get_object_or_404(Candidato, id=id)
-        vac = get_object_or_404(Vacante, vacante = candidato.vacante)
+                respuesta_aud = "Ocurrio un error. Vuelva a intentarlo."
+        cand = get_object_or_404(Candidato, id=id)
+        vac = get_object_or_404(Vacante, vacante = cand.vacante)
         ent = get_object_or_404(Entrevista, vacante = vac.id)
         preguntas = Pregunta.objects.filter(entrevista = ent.id)
+        ce = get_object_or_404(ContestaEntrevista, candidato = cand)
+        rsp = Respuesta(
+            respuesta = respuesta_aud,
+            contesta_entrevista = ce)
+        rsp.save()
         data = {
-            "candidatoInfo": candidato,
+            "candidatoInfo": cand,
             "listaPreguntas": preguntas,
+            "respuesta_audio": respuesta_aud
         }
         return render(request, 'codigo_candidato/inicio_entrevista.html', data)
+
+    def validacion(request, id):
+        cand = get_object_or_404(Candidato, id=id)
+        ce = get_object_or_404(ContestaEntrevista, candidato = cand.id)
+        ## Evaluacion
+        data = {
+            "candidatoInfo": cand
+        }
+        return render(request, 'codigo_candidato/guardar_Entrevista.html', data)
+
 
 class CandidatoView(View):
     def get(request): 
