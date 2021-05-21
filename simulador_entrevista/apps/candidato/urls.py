@@ -6,8 +6,8 @@ urlpatterns = [
     path('', CodigoCandidatoView.search_code, name="buscar_codigo"),
     path('candidato/<int:id>/bienvenido', CodigoCandidatoView.welcome_entrevista, name="bienvenida_entrevista"),
     path('candidato/<int:id>/entrevista', CodigoCandidatoView.init_entrevista, name="inicio_entrevista"),
-    path('candidato/<int:id>/entrevista/guardar', CodigoCandidatoView, name="guardar_entrevista"),
-    path('candidato/<int:id>/guardar', CodigoCandidatoView.record, name="responder_pregunta"),
+    #path('candidato/<int:id>/entrevista/guardar', CodigoCandidatoView, name="guardar_entrevista"),
+    path('candidato/<int:id>/<int:sts>/guardar', CodigoCandidatoView.record, name="responder_pregunta"),
     path('candidato/<int:id>/evaluar', CodigoCandidatoView.validacion, name="evaluar_respuesta"),
 
     ## Candidatos vistos por la empresa

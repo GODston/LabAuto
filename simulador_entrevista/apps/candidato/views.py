@@ -2,7 +2,7 @@ from apps.entrevista.models import Entrevista
 from apps.entrevista.models import Pregunta
 from apps.entrevista.models import ContestaEntrevista
 from apps.entrevista.models import Respuesta
-from apps.empresa.models import Empresa, Vacante
+from apps.empresa.models import Empresa, Vacante, Criterio
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from django.contrib import messages
@@ -54,8 +54,8 @@ class CodigoCandidatoView(View):
     def init_entrevista(request, id):
         candidato = get_object_or_404(Candidato, id=id)
         vac = get_object_or_404(Vacante, vacante = candidato.vacante)
-        ent = get_object_or_404(Entrevista, vacante = vac.id)
-        preguntas = Pregunta.objects.filter(entrevista = ent.id)
+        ent = get_object_or_404(Entrevista, vacante = vac)
+        preguntas = Pregunta.objects.filter(entrevista = ent)
         ce = ContestaEntrevista(
             puntuacion = 0, 
             entrevista = ent, 
@@ -64,7 +64,9 @@ class CodigoCandidatoView(View):
         data = {
             "candidatoInfo": candidato,
             "listaPreguntas": preguntas,
-            "respuesta_audio": "En espera..."
+            "respuesta_audio": "En espera...",
+            "BtnName": "Estoy Listo para Responder",
+            "sts": 0
         }
         return render(request, 'codigo_candidato/inicio_entrevista.html', data)
     
@@ -76,34 +78,67 @@ class CodigoCandidatoView(View):
         }
         return render(request, 'codigo_candidato/guardar_entrevista.html', data)
 
-    def record(request, id):
-        r = sr.Recognizer()
-        respuesta_aud = "No Funciono"
-        with sr.Microphone() as source:
-            audio = r.listen(source, timeout=2)
-            try:
-                respuesta_aud = r.recognize_google(audio, language="es-419")
-            except:
-                respuesta_aud = "Ocurrio un error. Vuelva a intentarlo."
-        cand = get_object_or_404(Candidato, id=id)
-        vac = get_object_or_404(Vacante, vacante = cand.vacante)
-        ent = get_object_or_404(Entrevista, vacante = vac.id)
-        preguntas = Pregunta.objects.filter(entrevista = ent)
-        ce = get_object_or_404(ContestaEntrevista, candidato = cand)
-        rsp = Respuesta(
-            respuesta = respuesta_aud,
-            contesta_entrevista = ce)
-        rsp.save()
-        data = {
-            "candidatoInfo": cand,
-            "listaPreguntas": preguntas,
-            "respuesta_audio": respuesta_aud
-        }
-        return render(request, 'codigo_candidato/inicio_entrevista.html', data)
+    def record(request, id, sts):
+        if sts == 0:
+            messages.success(request, "Acercate a tu microfono, presiona de nuevo el boton -Responder- y contesta las preguntas.")
+            cand = get_object_or_404(Candidato, id=id)
+            vac = get_object_or_404(Vacante, vacante = cand.vacante)
+            ent = get_object_or_404(Entrevista, vacante = vac)
+            preguntas = Pregunta.objects.filter(entrevista = ent)
+            data = {
+                "candidatoInfo": cand,
+                "listaPreguntas": preguntas,
+                "respuesta_audio": "En espera...",
+                "BtnName": "Responder",
+                "sts": 1
+            }
+            return render(request, 'codigo_candidato/inicio_entrevista.html', data)
+        if sts == 1:
+            r = sr.Recognizer()
+            respuesta_aud = "No Funciono" 
+            with sr.Microphone() as source:
+                audio = r.listen(source, timeout=2)
+                try:
+                    respuesta_aud = r.recognize_google(audio, language="es-419")
+                except:
+                    respuesta_aud = "Ocurrio un error. Vuelva a intentarlo."
+            cand = get_object_or_404(Candidato, id=id)
+            vac = get_object_or_404(Vacante, vacante = cand.vacante)
+            ent = get_object_or_404(Entrevista, vacante = vac)
+            preguntas = Pregunta.objects.filter(entrevista = ent)
+            ce = get_object_or_404(ContestaEntrevista, candidato = cand)
+            rsp = Respuesta(
+                respuesta = respuesta_aud,
+                contesta_entrevista = ce)
+            rsp.save()
+            data = {
+                "candidatoInfo": cand,
+                "listaPreguntas": preguntas,
+                "respuesta_audio": respuesta_aud,
+                "BtnName": "Volver a intentar",
+                "sts": 0
+            }
+            return render(request, 'codigo_candidato/inicio_entrevista.html', data)
 
     def validacion(request, id):
-        cand = get_object_or_404(Candidato, id=id)
-        ce = get_object_or_404(ContestaEntrevista, candidato = cand.id)
+        cand = get_object_or_404(Candidato, id=id)        
+        ce = get_object_or_404(ContestaEntrevista, candidato = cand)
+        resp = get_object_or_404(Respuesta, contesta_entrevista = ce)
+        cr = Criterio.objects.filter(vacante = cand.vacante)
+        count = cr.count()
+        if count > 0:
+            valor = 100 / count
+            calif = 0
+            for crit in cr:
+                if crit.criterio in resp.respuesta:
+                    calif = calif + (valor)
+        else:
+            calif = 100
+        ce2 = ContestaEntrevista(
+            puntuacion = calif, 
+            entrevista = ce.entrevista, 
+            candidato = ce.candidato)
+        ce2.save()
         ## Evaluacion
         data = {
             "candidatoInfo": cand
