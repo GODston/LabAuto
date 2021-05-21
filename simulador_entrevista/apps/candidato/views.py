@@ -3,6 +3,7 @@ from apps.entrevista.models import Pregunta
 from apps.entrevista.models import ContestaEntrevista
 from apps.entrevista.models import Respuesta
 from apps.empresa.models import Vacante
+from apps.empresa.models import Criterio
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from django.contrib import messages
@@ -52,8 +53,8 @@ class CodigoCandidatoView(View):
     def init_entrevista(request, id):
         candidato = get_object_or_404(Candidato, id=id)
         vac = get_object_or_404(Vacante, vacante = candidato.vacante)
-        ent = get_object_or_404(Entrevista, vacante = vac.id)
-        preguntas = Pregunta.objects.filter(entrevista = ent.id)
+        ent = get_object_or_404(Entrevista, vacante = vac)
+        preguntas = Pregunta.objects.filter(entrevista = ent)
         ce = ContestaEntrevista(
             puntuacion = 0, 
             entrevista = ent, 
@@ -85,7 +86,7 @@ class CodigoCandidatoView(View):
                 respuesta_aud = "Ocurrio un error. Vuelva a intentarlo."
         cand = get_object_or_404(Candidato, id=id)
         vac = get_object_or_404(Vacante, vacante = cand.vacante)
-        ent = get_object_or_404(Entrevista, vacante = vac.id)
+        ent = get_object_or_404(Entrevista, vacante = vac)
         preguntas = Pregunta.objects.filter(entrevista = ent)
         ce = get_object_or_404(ContestaEntrevista, candidato = cand)
         rsp = Respuesta(
@@ -100,8 +101,21 @@ class CodigoCandidatoView(View):
         return render(request, 'codigo_candidato/inicio_entrevista.html', data)
 
     def validacion(request, id):
-        cand = get_object_or_404(Candidato, id=id)
-        ce = get_object_or_404(ContestaEntrevista, candidato = cand.id)
+        cand = get_object_or_404(Candidato, id=id)        
+        ce = get_object_or_404(ContestaEntrevista, candidato = cand)
+        resp = get_object_or_404(Respuesta, ccontesta_entrevistae = ce)
+        cr = Criterio.objects.filter(vacante = cand.vacante)
+        count = cr.count()
+        valor = 100 / count
+        calif = 0
+        for crit in cr:
+            if crit.criterio in resp.respuesta:
+                calif = calif + (valor)
+        ce2 = ContestaEntrevista(
+            puntuacion = calif, 
+            entrevista = ce.entrevista, 
+            candidato = ce.candidato)
+        ce2.save()
         ## Evaluacion
         data = {
             "candidatoInfo": cand
