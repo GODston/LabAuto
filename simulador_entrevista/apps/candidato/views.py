@@ -2,7 +2,7 @@ from apps.entrevista.models import Entrevista
 from apps.entrevista.models import Pregunta
 from apps.entrevista.models import ContestaEntrevista
 from apps.entrevista.models import Respuesta
-from apps.empresa.models import Vacante
+from apps.empresa.models import Empresa, Vacante
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from django.contrib import messages
@@ -12,6 +12,8 @@ from .forms import CandidatoForm, AgregarCandidatoForm, CodigoCandidato
 from apps.persona.forms import PersonaForm
 from apps.persona.models import Persona
 import speech_recognition as sr
+from django.contrib.sessions.models import Session
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -111,7 +113,13 @@ class CodigoCandidatoView(View):
 
 class CandidatoView(View):
     def get(request): 
-        candidatos = Candidato.objects.all()
+        if request.user.is_authenticated:
+            empresa = Empresa.objects.filter(usuario=request.user)
+            vacantes = Vacante.objects.filter(empresa__in=empresa)
+            candidatos = Candidato.objects.all().filter(vacante__in=vacantes)
+        else:
+            candidatos = Candidato.objects.all()
+    
         data = {
             'listaCandidatos': candidatos
         }

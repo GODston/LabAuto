@@ -4,6 +4,7 @@ from django.views.generic import View
 from django.contrib import messages
 from datetime import datetime
 from .models import Entrevista, Pregunta
+from apps.empresa.models import Empresa, Vacante
 from .forms import AgregarEntrevistaForm, EntrevistaForm, AgregarPreguntaForm, PreguntaForm
 
 # Create your views here.
@@ -11,7 +12,13 @@ class EntrevistaView(View):
 
     ## Lista de entrevistas
     def list(request):
-        entrevistas = Entrevista.objects.all()
+        if request.user.is_authenticated:
+            empresa = Empresa.objects.filter(usuario=request.user)
+            vacantes = Vacante.objects.filter(empresa__in=empresa)
+            entrevistas = Entrevista.objects.filter(vacante__in=vacantes)
+        else:
+            entrevistas = Entrevista.objects.all()
+
         data = {
             "listaEntrevistas": entrevistas
         }
