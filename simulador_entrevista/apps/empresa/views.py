@@ -1,9 +1,11 @@
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View
 from .models import Vacante, Criterio, Empresa
-from .forms import AgregarEmpresaForm, AgregarVacanteForm, VacanteForm, AgregarCriterioForm, CustomUserCreationForm
+from .forms import AgregarEmpresaForm, AgregarVacanteForm, VacanteForm, AgregarCriterioForm, CustomUserCreationForm, EmpresaForm
 from apps.persona.forms import PersonaForm
+from apps.persona.models import Persona
 from django.contrib.auth import authenticate, login
 
 # Create your views here.
@@ -39,13 +41,54 @@ class EmpresaView(View):
         return render(request, 'registration/registro.html', data)
 
     def settings(request):
-        return render(request, 'empresa/settings.html')
+        empresa = Empresa.objects.filter(usuario=request.user)[0]
+        formEmpresa = EmpresaForm(instance=empresa)
+        ##formUsuario = UserCreationForm(instance=empresa.usuario)
+        formPersona = PersonaForm(instance=empresa.persona)
+
+        data = {
+            "empresa": empresa,
+            "formEmpresa": formEmpresa,
+            "formPersona": formPersona,
+            ##"formUsuario": formUsuario
+        }
+
+        if request.method == 'POST':
+            formEmpresa = EmpresaForm(data=request.POST, instance=empresa)
+            formPersona = PersonaForm(data=request.POST, instance=empresa.persona)
+            ##formUsuario = UserCreationForm(data=request.POST, instance=empresa.usuario)
+            
+            if formPersona.is_valid():
+                formPersona.save()
+                messages.success(request, "Se ha guardado la informacion correctamente")
+            else:
+                data["formPersona"] = formPersona
+
+            if formEmpresa.is_valid():
+                formEmpresa.save()
+                messages.success(request, "Se ha guardado la informacion correctamente")
+            else:
+                data["formEmpresa"] = formEmpresa
+
+            ##if formUsuario.is_valid():
+                ##formUsuario.save()
+                ##messages.success(request, "Se ha guardado la informacion correctamente")
+            ##else:
+              ##  data["formUsuario"] = formUsuario
+
+        return render(request, 'empresa/settings.html', data)
 
 
 class VacanteView(View):
 
     def get(request):
-        listaVacantes = Vacante.objects.all()
+
+        if request.user.is_authenticated:
+            empresa = Empresa.objects.filter(usuario=request.user)
+            listaVacantes = Vacante.objects.filter(empresa__in=empresa)
+        else: 
+            listaVacantes = Vacante.objects.all()
+
         data = {
             'listaVacantes': listaVacantes
         }
